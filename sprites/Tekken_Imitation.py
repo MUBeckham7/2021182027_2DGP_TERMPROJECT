@@ -12,7 +12,7 @@ frame = 0
 while running:
   clear_canvas()
   BackGround1.draw(Screen_width // 2 + 1,Screen_Height // 2 + 1)
-  Jin.clip_draw(frame*100,2560,50,140,x,y)
+  Jin.clip_draw(frame*100,0,50,140,x,y)
   frame = (frame+1) % 8
   update_canvas()
 
