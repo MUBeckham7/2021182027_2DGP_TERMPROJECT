@@ -24,11 +24,13 @@ def handle_events():
         running = False
       elif event.key == SDLK_RIGHT:
         dir_x += 1
-
+      elif event.key== SDLK_LEFT:
+        dir_x -= 1
     elif event.type == SDL_KEYUP:
       if event.key == SDLK_RIGHT:
         dir_x -= 1
-
+      elif event.key== SDLK_LEFT:
+        dir_x += 1
 
 
 
@@ -37,10 +39,10 @@ while running:
 
   handle_events()
   BackGround1.draw(Screen_width // 2 + 1,Screen_Height // 2 + 1)
-  x += dir_x * 5
+  x += dir_x * 10
   frame = (frame+1) % 4
 
-  Jin.clip_draw(frame*160,2580,200,320,x,y)
+  Jin.clip_draw(frame*160,2580,200,280,x,y)
   update_canvas()
 
 
