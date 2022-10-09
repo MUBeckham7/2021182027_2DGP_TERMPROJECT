@@ -13,6 +13,7 @@ punch_1 = 0
 dir_x=0
 space = False
 k = False
+defence_1 = False
 #키보드 입력 함수
 def handle_events():
   global running
@@ -20,6 +21,7 @@ def handle_events():
   global dir_x
   global space
   global k
+  global defence_1
   events = get_events()
   for event in events:
     if event.type == SDL_QUIT:
@@ -31,6 +33,7 @@ def handle_events():
         dir_x += 1
       elif event.key == SDLK_a:
         dir_x -= 0.5
+        defence_1 = True
       elif event.key == SDLK_SPACE:
         space = True
       elif event.key == SDLK_k:
@@ -40,7 +43,7 @@ def handle_events():
         dir_x -= 1
       elif event.key == SDLK_a:
         dir_x += 0.5
-
+        defence_1 = False
 
 while running:
   clear_canvas()
@@ -53,8 +56,8 @@ while running:
 
 
 
-
-  if space == False and k == False:
+  ############################################################## 첫번째 캐릭터
+  if space == False and k == False and defence_1 == False:
     Jin.clip_draw(frame_1 * 160, 2580, 100, 140, x, y)
   elif space == True:
     Jin.clip_draw(punch_1*170, 1220, 115, 140, x, y)
@@ -65,8 +68,9 @@ while running:
     Jin.clip_draw((kick_1 * 170 )+ 630, 1220, 130, 160, x, y)
     kick_1 = (kick_1 + 1) % 5
     if kick_1 == 4:
-      k=False
-
+      k = False
+  elif space == False and k == False and defence_1 == True:
+    Jin.clip_draw(640, 80, 130, 100, x, y)
 
 
 
