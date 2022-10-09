@@ -62,7 +62,7 @@ while running:
     if punch_1 == 3:
       space = False
   elif k == True:
-    Jin.clip_draw(kick_1 * 160 + 630, 1220, 120, 140, x, y)
+    Jin.clip_draw((kick_1 * 170 )+ 630, 1220, 130, 160, x, y)
     kick_1 = (kick_1 + 1) % 5
     if kick_1 == 4:
       k=False
