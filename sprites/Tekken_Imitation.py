@@ -7,16 +7,19 @@ Jin = load_image('Jin.png')
 
 running = True
 x,y=200,200
-frame = 0
-punch = 0
+frame_1 = 0
+kick_1=0
+punch_1 = 0
 dir_x=0
 space = False
+k = False
 #키보드 입력 함수
 def handle_events():
   global running
   global x,y
   global dir_x
   global space
+  global k
   events = get_events()
   for event in events:
     if event.type == SDL_QUIT:
@@ -27,14 +30,16 @@ def handle_events():
       elif event.key == SDLK_d:
         dir_x += 1
       elif event.key == SDLK_a:
-        dir_x -= 1
+        dir_x -= 0.5
       elif event.key == SDLK_SPACE:
         space = True
+      elif event.key == SDLK_k:
+        k = True
     elif event.type == SDL_KEYUP:
       if event.key == SDLK_d:
         dir_x -= 1
       elif event.key == SDLK_a:
-        dir_x += 1
+        dir_x += 0.5
 
 
 while running:
@@ -43,19 +48,24 @@ while running:
   handle_events()
   BackGround1.draw(Screen_width // 2 + 1,Screen_Height // 2 + 1)
   x += dir_x * 10
-  frame = (frame+1) % 4
+  frame_1 = (frame_1 + 1) % 4
 
 
 
 
-  if space == False:
-    Jin.clip_draw(frame*160,2580,100,140,x,y)
+
+  if space == False and k == False:
+    Jin.clip_draw(frame_1 * 160, 2580, 100, 140, x, y)
   elif space == True:
-    Jin.clip_draw(punch*170, 1220, 115, 140, x, y)
-    punch = (punch + 1) % 4
-    if punch == 3:
+    Jin.clip_draw(punch_1*170, 1220, 115, 140, x, y)
+    punch_1 = (punch_1 + 1) % 4
+    if punch_1 == 3:
       space = False
-
+  elif k == True:
+    Jin.clip_draw(kick_1 * 160 + 630, 1220, 120, 140, x, y)
+    kick_1 = (kick_1 + 1) % 5
+    if kick_1 == 4:
+      k=False
 
 
 
