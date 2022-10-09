@@ -35,8 +35,6 @@ def handle_events():
         dir_x -= 1
       elif event.key == SDLK_a:
         dir_x += 1
-      elif event.key == SDLK_SPACE:
-        space = False
 
 
 while running:
@@ -46,12 +44,22 @@ while running:
   BackGround1.draw(Screen_width // 2 + 1,Screen_Height // 2 + 1)
   x += dir_x * 10
   frame = (frame+1) % 4
-  punch = (punch+1) % 2
+
+
+
 
   if space == False:
     Jin.clip_draw(frame*160,2580,100,140,x,y)
   elif space == True:
-    Jin.clip_draw(punch*160, 1230, 120, 140, x, y)
+    Jin.clip_draw(punch*170, 1220, 115, 140, x, y)
+    punch = (punch + 1) % 4
+    if punch == 3:
+      space = False
+
+
+
+
+
 
   update_canvas()
 
