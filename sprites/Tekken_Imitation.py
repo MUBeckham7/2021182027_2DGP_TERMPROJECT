@@ -4,7 +4,9 @@ Screen_width,Screen_Height = 1200,800
 open_canvas(800,600)
 BackGround1 = load_image('BackGrounds1.png')
 Jin = load_image('Jin.png')
-kazuya = load_image('Kazuya.png')
+kazuya = load_image('Kazuya_reverse.png')
+life_bar = load_image('life bar.png')
+#title_state = load_image('title_image.png')
 
 running = True
 x,y=200,200
@@ -12,10 +14,10 @@ x2,y2=600,200
 frame_1 = 0
 frame_2 = 0
 kick_1 , punch_1 = 0, 0
-punch_2 = 0
+kick_2,punch_2 = 0,0
 dir_x_1,dir_x_2= 0,0
 space ,k = False,False
-num_5 = False
+num_5 ,num_2 = False, False
 defence_1 ,defence_2 = False,False
 #키보드 입력 함수
 def handle_events():
@@ -26,6 +28,7 @@ def handle_events():
   global k
   global defence_1,defence_2
   global num_5
+  global num_2
   events = get_events()
   for event in events:
     if event.type == SDL_QUIT:
@@ -47,8 +50,12 @@ def handle_events():
       elif event.key == SDLK_RIGHT:
         dir_x_2 +=0.6
         defence_2 = True
-      elif event.key == SDLK_KP_5:
+      elif event.key == SDLK_5:
         num_5 = True
+      elif event.key == SDLK_2:
+        num_2 = True
+      #elif event.key == SDLK_KP_5:
+        #num_5 = True
 
 
 
@@ -70,7 +77,9 @@ while running:
   clear_canvas()
 
   handle_events()
+  #title_state.draw(400,300)
   BackGround1.draw(Screen_width // 2 + 1,Screen_Height // 2 + 1)
+  life_bar.draw(400,500)
   x += dir_x_1 * 10
   x2 += dir_x_2 * 10
   frame_1 = (frame_1 + 1) % 4
@@ -79,7 +88,7 @@ while running:
   if space == False and k == False and defence_1 == False:
     Jin.clip_draw(frame_1 * 160, 2580, 100, 140, x, y)
   elif space == True:
-    Jin.clip_draw((punch_1-1)*170, 1220, 115, 140, x, y)
+    Jin.clip_draw((punch_1)*170, 1220, 115, 140, x, y)
     punch_1 = (punch_1 + 1) % 4
     if punch_1 == 3:
       space = False
@@ -91,15 +100,20 @@ while running:
   elif space == False and k == False and defence_1 == True:
     Jin.clip_draw(640, 80, 130, 100, x, y)
 
-  if num_5 == False and defence_2 == False:
-    kazuya.clip_draw(frame_2 * 142, 2520, 120, 140, x2, y2)
+  if num_5 == False and num_2 == False and defence_2 == False:
+    kazuya.clip_draw((frame_2 * 142)+830, 2520, 120, 140, x2, y2)
   elif num_5 ==True:
-    kazuya.clip_draw((punch_2-1) * 142, 1000, 120, 140, x2, y2)
+    kazuya.clip_draw((punch_2) * 142+1120, 1000, 120, 140, x2, y2)
     punch_2 = (punch_2 + 1) % 3
-    if punch_2 == 2:
+    if punch_2 == 0:
       num_5 = False
+  elif num_2 == True:
+    kazuya.clip_draw((kick_2) * 142+0,1000,120,140,x2,y2)
+    kick_2 = (kick_2 + 1) % 4
+    if kick_2 == 0:
+      num_2 = False
   elif defence_2 == True:
-    kazuya.clip_draw(1570, 250, 120, 140, x2, y2)
+    kazuya.clip_draw(0, 250, 120, 140, x2, y2)
 
 
   update_canvas()
