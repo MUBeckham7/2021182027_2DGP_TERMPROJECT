@@ -1,4 +1,5 @@
 from pico2d import *
+import pygame
 Screen_width,Screen_Height = 1200,800
 
 open_canvas(800,600)
@@ -19,6 +20,10 @@ dir_x_1,dir_x_2= 0,0
 space ,k = False,False
 num_5 ,num_2 = False, False
 defence_1 ,defence_2 = False,False
+game_result = None
+total_time = 10
+start_ticks = pygame.time.get_ticks()
+
 #키보드 입력 함수
 def handle_events():
   global running
@@ -73,6 +78,10 @@ def handle_events():
         defence_2 = False
 
 
+#def display_time(time):
+  #txt_timer = game_font.render(f"Time:{time}",True,Black)
+  #screen.blit(txt_timer,(600,500))
+
 while running:
   clear_canvas()
 
@@ -115,7 +124,14 @@ while running:
   elif defence_2 == True:
     kazuya.clip_draw(0, 250, 120, 140, x2, y2)
 
+  elapsed_time = (pygame.time.get_ticks()-start_ticks)/1000
+  #display_time(total_time - int(elapsed_time))
 
+  if total_time - int(elapsed_time) <= 0:
+    running = False
+
+
+  #pygame.display.update()
   update_canvas()
 
 
