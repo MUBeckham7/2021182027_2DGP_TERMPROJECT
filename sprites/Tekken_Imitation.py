@@ -8,6 +8,7 @@ Jin = load_image('Jin.png')
 kazuya = load_image('Kazuya_reverse.png')
 life_bar = load_image('life bar.png')
 title_image = load_image('title_image.png')
+gameover_image = load_image('game_over.png')
 
 running = True
 x,y=200,200
@@ -22,8 +23,9 @@ num_5 ,num_2 = False, False
 defence_1 ,defence_2 = False,False
 title = True
 game_result = None
-total_time = 10
+total_time = 5
 start_ticks=None
+gameover=False
 #키보드 입력 함수
 def handle_events():
   global running
@@ -101,6 +103,9 @@ while running:
     frame_1 = (frame_1 + 1) % 4
     frame_2 = (frame_2 + 1) % 6
 
+    if gameover == True:
+      gameover_image.draw(400,300)
+
     if space == False and k == False and defence_1 == False:
       Jin.clip_draw(frame_1 * 160, 2580, 100, 140, x, y)
     elif space == True:
@@ -135,7 +140,8 @@ while running:
     #display_time(total_time - int(elapsed_time))
 
     if total_time - int(elapsed_time) <= 0:
-      running = False
+        gameover=True
+
 
 
   #pygame.display.update()
