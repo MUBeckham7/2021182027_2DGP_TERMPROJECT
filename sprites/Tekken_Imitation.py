@@ -23,8 +23,7 @@ defence_1 ,defence_2 = False,False
 title = True
 game_result = None
 total_time = 10
-start_ticks = pygame.time.get_ticks()
-
+start_ticks=None
 #키보드 입력 함수
 def handle_events():
   global running
@@ -36,6 +35,7 @@ def handle_events():
   global num_5
   global num_2
   global title
+  global start_ticks
   events = get_events()
   for event in events:
     if event.type == SDL_QUIT:
@@ -65,6 +65,7 @@ def handle_events():
         #num_5 = True
       elif event.key == SDLK_RETURN:
         title = False
+        start_ticks = pygame.time.get_ticks()
 
 
 
