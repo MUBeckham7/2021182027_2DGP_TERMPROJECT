@@ -1,5 +1,6 @@
 from pico2d import *
 import pygame
+import os
 Screen_width,Screen_Height = 1200,800
 
 open_canvas(800,600)
@@ -17,15 +18,19 @@ frame_1 = 0
 frame_2 = 0
 kick_1 , punch_1 = 0, 0
 kick_2,punch_2 = 0,0
+jump_framex1 =[0,1,2,1]
 dir_x_1,dir_x_2= 0,0
 space ,k = False,False
 num_5 ,num_2 = False, False
 defence_1 ,defence_2 = False,False
+jump_x1=False
 title = True
 game_result = None
 total_time = 5
 start_ticks=None
 gameover=False
+sec=0
+i=0
 #키보드 입력 함수
 def handle_events():
   global running
@@ -38,6 +43,7 @@ def handle_events():
   global num_2
   global title
   global start_ticks
+  global jump_x1
   events = get_events()
   for event in events:
     if event.type == SDL_QUIT:
@@ -50,6 +56,8 @@ def handle_events():
       elif event.key == SDLK_a:
         dir_x_1 -= 0.5
         defence_1 = True
+      elif event.key==SDLK_w:
+        jump_x1 = True
       elif event.key == SDLK_SPACE:
         space = True
       elif event.key == SDLK_k:
@@ -84,10 +92,20 @@ def handle_events():
         dir_x_2 -= 0.6
         defence_2 = False
 
-
-#def display_time(time):
-  #txt_timer = game_font.render(f"Time:{time}",True,Black)
-  #screen.blit(txt_timer,(600,500))
+def jumping_motion():
+  global jump_framex1
+  global i
+  global jump_x1
+  i = (i+1) % 4
+  if jump_framex1[i] == 0:
+    Jin.clip_draw(jump_framex1[i] * 160, 2400, 100, 140, x, y+10)
+    jump_x1 =False
+  elif i== 0 and jump_framex1[i] == 1:
+    Jin.clip_draw(jump_framex1[i] * 160 + 1440, 2580, 100, 140, x,y)
+  else :
+    Jin.clip_draw(jump_framex1[i] * 160 + 1440, 2580, 100, 140, x,y+20)
+  #Jin.clip_draw(1760, 2580, 100, 140, x, y)
+  #Jin.clip_draw(160, 2440, 100, 140, x, y)
 
 while running:
   clear_canvas()
@@ -106,8 +124,10 @@ while running:
     if gameover == True:
       gameover_image.draw(400,300)
 
-    if space == False and k == False and defence_1 == False:
+    if space == False and k == False and jump_x1 == False and defence_1 == False:
       Jin.clip_draw(frame_1 * 160, 2580, 100, 140, x, y)
+    elif jump_x1 == True:
+      jumping_motion()
     elif space == True:
       Jin.clip_draw((punch_1)*170, 1220, 115, 140, x, y)
       punch_1 = (punch_1 + 1) % 4
@@ -141,6 +161,15 @@ while running:
 
     if total_time - int(elapsed_time) <= 0:
         gameover=True
+        sec += 1
+
+    if sec == 50:
+      gameover,title,sec=False,True,0
+      x,y=200,200
+      x2,y2=600,200
+
+
+
 
 
 
