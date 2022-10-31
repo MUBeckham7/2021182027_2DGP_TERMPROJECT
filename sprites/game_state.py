@@ -1,32 +1,32 @@
 from pico2d import *
 import game_framework
-from title import Title
-title = None
-import game_state
+from background import BackGround
+background = None
 
 def handle_events():
     events = get_events()
     for event in events:
         if event.type == SDL_QUIT:
             game_framework.quit()
-        elif (event.type, event.key) == (SDL_KEYDOWN, SDLK_ESCAPE):
+        elif (event.type,event.key) == (SDL_KEYDOWN,SDLK_ESCAPE):
             game_framework.quit()
-        elif (event.type, event.key) == (SDL_KEYDOWN,SDLK_RETURN):
-            game_framework.change_state(game_state)
+        else:
+            #boy.handle_event(event)
+            pass
 
 def enter():
-    global title
-    title = Title()
+    global background
+    background = BackGround()
 
 def exit():
-    global title
-    del title
+    global background
+    del background
 
 def update():
     pass
 
 def draw_world():
-    title.draw()
+    background.draw()
 
 def draw():
     clear_canvas()
@@ -38,11 +38,15 @@ def pause():
 
 def resume():
     pass
+
+
+
+
 def test_self():
-    import title_state
+    import game_state
 
     pico2d.open_canvas()
-    game_framework.run(title_state)
+    game_framework.run(game_state)
     pico2d.clear_canvas()
 
 if __name__ == '__main__':
