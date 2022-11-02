@@ -1,8 +1,8 @@
 from pico2d import *
 import game_framework
+import game_state
 from title import Title
 title = None
-import game_state
 
 def handle_events():
     events = get_events()

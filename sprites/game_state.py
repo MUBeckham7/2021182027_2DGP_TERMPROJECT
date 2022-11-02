@@ -2,6 +2,8 @@ from pico2d import *
 import game_framework
 from background import BackGround
 background = None
+from jin import Jin
+jin = None
 
 def handle_events():
     events = get_events()
