@@ -9,7 +9,7 @@ key_event_table = {
     (SDL_KEYUP, SDLK_a): LU,
     (SDL_KEYUP, SDLK_d): RU,
     (SDL_KEYDOWN, SDLK_SPACE): PUNCH,
-    (SDL_KEYDOWN, SDLK_k): KICK
+    (SDL_KEYDOWN, SDLK_k): KICK,
 }
 
 
@@ -58,9 +58,11 @@ class RUN:
         if self.dir == -0.1:
             self.image.clip_draw(640, 80, 130, 100, self.x, self.y)
 
+
 next_state = {
-    IDLE: {RU: RUN, LU: RUN, RD: RUN, LD: RUN},
-    RUN: {RU:IDLE,LU:IDLE,RD:IDLE,LD:IDLE}
+    IDLE: {RU: RUN, LU: RUN, RD: RUN, LD: RUN , PUNCH:IDLE, KICK:IDLE},
+    RUN: {RU:IDLE,LU:IDLE,RD:IDLE,LD:IDLE,PUNCH:RUN,KICK:RUN}
+
 }
 
 
@@ -105,3 +107,5 @@ class Jin:
 
     def handle_collision(self, other, group):
         print('boy meet ball')
+
+
