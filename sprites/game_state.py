@@ -21,10 +21,11 @@ def handle_events():
 
 
 def enter():
-    global background
+    global background,jin
+    jin=Jin()
     background = BackGround()
     game_world.add_object(background, 0)
-
+    game_world.add_object(jin,1)
     # game_world.add_collision_group(jin,kazuya,'jin:kazuya')
 
 

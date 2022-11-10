@@ -29,12 +29,7 @@ class IDLE:
 
     @staticmethod
     def draw(self):
-        if self.face_dir == 1:
             self.image.clip_draw(self.frame * 160, 2580, 100, 140, self.x, self.y)
-        else:
-            self.imagge.clip_composite_draw(self.frame * 100, 300, 100, 100,
-                                            0, 'h', self.x - 25, self.y - 25, 100, 140)
-
 
 class RUN:
     def enter(self, event):
@@ -42,11 +37,11 @@ class RUN:
         if event == RD:
             self.dir += 1
         elif event == LD:
-            self.dir -= 1
+            self.dir -= 0.1
         elif event == RU:
             self.dir -= 1
         elif event == LU:
-            self.dir += 1
+            self.dir += 0.1
 
     def exit(self, event):
         print('EXIT RUN')
@@ -54,19 +49,18 @@ class RUN:
 
     def do(self):
         self.frame = (self.frame + 1) % 4
-        self.x += self.face_dir
+        self.x += self.dir
         self.x = clamp(0, self.x, 800)
 
     def draw(self):
-        if self.dir == -1:
-            self.image.clip_draw(self.frame * 160, 2580, 100, 140, self.x, self.y)
         if self.dir == 1:
-            self.imagge.clip_composite_draw(self.frame * 100, 300, 100, 100,
-                                            0, 'h', self.x - 25, self.y - 25, 100, 140)
-
+            self.image.clip_draw(self.frame * 160, 2580, 100, 140, self.x, self.y)
+        if self.dir == -0.1:
+            self.image.clip_draw(640, 80, 130, 100, self.x, self.y)
 
 next_state = {
-    IDLE: {RU: IDLE, LU: IDLE, RD: IDLE, LD: IDLE}
+    IDLE: {RU: RUN, LU: RUN, RD: RUN, LD: RUN},
+    RUN: {RU:IDLE,LU:IDLE,RD:IDLE,LD:IDLE}
 }
 
 
@@ -107,7 +101,7 @@ class Jin:
             self.add_event(key_event)
 
     def get_bb(self):
-        return self.x - 20, self.y - 30, self.x + 20, self.y + 30
+        return self.x - 10, self.y - 55, self.x + 30, self.y + 40
 
     def handle_collision(self, other, group):
         print('boy meet ball')
