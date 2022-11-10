@@ -5,5 +5,11 @@ class BackGround:
     def __init__(self):
         self.image = load_image('BackGrounds1.png')
 
+    def update(self):
+        pass
+
     def draw(self):
         self.image.draw(Screen_width // 2 + 1, Screen_Height // 2 + 1)
+
+    def get_bb(self):
+        return 0,0,800,600
