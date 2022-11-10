@@ -1,6 +1,6 @@
 from pico2d import *
 
-RD, LD, RU, LU, PUNCH, KICK = range(6)
+RD, LD, RU, LU, PUNCH_D, KICK_D,PUNCH_U,KICK_U = range(8)
 event_name = ['RD', 'LD', 'RU', 'LU', 'PUNCH', 'KICK']
 
 key_event_table = {
@@ -8,10 +8,11 @@ key_event_table = {
     (SDL_KEYDOWN, SDLK_d): RD,
     (SDL_KEYUP, SDLK_a): LU,
     (SDL_KEYUP, SDLK_d): RU,
-    (SDL_KEYDOWN, SDLK_SPACE): PUNCH,
-    (SDL_KEYDOWN, SDLK_k): KICK,
+    (SDL_KEYDOWN, SDLK_SPACE): PUNCH_D,
+    (SDL_KEYDOWN, SDLK_k): KICK_D,
+    (SDL_KEYUP, SDLK_SPACE): PUNCH_U,
+    (SDL_KEYUP, SDLK_k): KICK_U,
 }
-
 
 class IDLE:
     @staticmethod
@@ -29,7 +30,8 @@ class IDLE:
 
     @staticmethod
     def draw(self):
-            self.image.clip_draw(self.frame * 160, 2580, 100, 140, self.x, self.y)
+        self.image.clip_draw(self.frame * 160, 2580, 100, 140, self.x, self.y)
+
 
 class RUN:
     def enter(self, event):
@@ -58,11 +60,34 @@ class RUN:
         if self.dir == -0.1:
             self.image.clip_draw(640, 80, 130, 100, self.x, self.y)
 
+class Jin_Punch:
+    def enter(self, event):
+        pass
+    def exit(self, event):
+        pass
+    def do(self):
+        self.frame = (self.frame + 1) % 4
+        pass
+    def draw(self):
+        self.image.clip_draw(self.frame * 160, 2580, 100, 140, self.x, self.y)
+        pass
+class Jin_Kick:
+    def enter(self, event):
+        pass
+    def exit(self, event):
+        pass
+
+    def do(self):
+        pass
+
+    def draw(self):
+        pass
 
 next_state = {
-    IDLE: {RU: RUN, LU: RUN, RD: RUN, LD: RUN , PUNCH:IDLE, KICK:IDLE},
-    RUN: {RU:IDLE,LU:IDLE,RD:IDLE,LD:IDLE,PUNCH:RUN,KICK:RUN}
-
+    IDLE: {RU: RUN, LU: RUN, RD: RUN, LD: RUN , PUNCH_D:Jin_Punch,PUNCH_U:Jin_Punch, KICK_D:Jin_Kick,KICK_U:Jin_Kick},
+    RUN: {RU:IDLE,LU:IDLE,RD:IDLE,LD:IDLE,PUNCH_D:Jin_Punch,PUNCH_U:Jin_Punch, KICK_D:Jin_Kick,KICK_U:Jin_Kick},
+    Jin_Punch:{RU:IDLE,LU:IDLE,RD:IDLE,LD:IDLE},
+    Jin_Kick:{RU:IDLE,LU:IDLE,RD:IDLE,LD:IDLE}
 }
 
 
