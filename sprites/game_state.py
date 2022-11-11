@@ -10,6 +10,7 @@ from jin import Jin
 from kazuya import Kazuya
 from gameover import GameOver
 from lifebar import LifeBar
+from leftlifebar import LeftLifeBar
 
 background = None
 jin = None
@@ -18,6 +19,7 @@ gameover=None
 gameoverTF=False
 start_ticks=None
 lifebar = None
+leftlifebar=None
 sec=0
 i=0
 total_time = 10
@@ -35,17 +37,19 @@ def handle_events():
 
 
 def enter():
-    global background,jin,kazuya,lifebar
+    global background,jin,kazuya,lifebar,leftlifebar
     global start_ticks,gameover,gameoverTF
     jin=Jin()
     kazuya=Kazuya()
     background = BackGround()
     gameover = GameOver()
     lifebar = LifeBar()
+    leftlifebar = LeftLifeBar()
     game_world.add_object(background, 0)
     game_world.add_object(jin,1)
     game_world.add_object(kazuya,1)
     game_world.add_object(lifebar,1)
+    game_world.add_object(leftlifebar,1)
     game_world.add_collision_group(jin,kazuya,'jin:kazuya')
 
     start_ticks = pygame.time.get_ticks()
