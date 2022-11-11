@@ -1,4 +1,5 @@
 from pico2d import *
+import leftlifebar
 
 RD, LD, RU, LU, PU,PD, KU,KD = range(8)
 event_name = ['RD', 'LD', 'RU', 'LU', 'PU', 'KU','PD','KD']
@@ -139,5 +140,6 @@ class Jin:
 
     def handle_collision(self, other, group):
         print('boy meet ball')
+        leftlifebar.a += 1
 
 

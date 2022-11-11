@@ -1,4 +1,5 @@
 from pico2d import *
+import rightlifebar
 
 RD, LD, RU, LU, PU,PD, KU,KD = range(8)
 event_name = ['RD', 'LD', 'RU', 'LU', 'PU', 'KU','PD','KD']
@@ -138,5 +139,6 @@ class Kazuya:
 
     def handle_collision(self, other, group):
         print('boy meet ball')
+        rightlifebar.a += 1
 
 

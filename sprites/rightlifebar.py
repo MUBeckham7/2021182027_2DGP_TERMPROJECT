@@ -1,5 +1,6 @@
 from pico2d import *
 
+a=0
 class RightLifeBar:
     def __init__(self):
         self.image = load_image('right_lifebar.png')
@@ -9,5 +10,5 @@ class RightLifeBar:
 
     #기본 613,325
     def draw(self):
-        self.image.clip_draw_to_origin(0,0,460,50,613,515,100,80)
-        self.image.clip_composite_draw(0,0,460,50,0,'',613,515,325,38)
+        global a
+        self.image.clip_composite_draw(0,0,460,50,0,'',613-(0.9*a),515,325-(2*a),38)
