@@ -135,7 +135,7 @@ class Jin:
             self.add_event(key_event)
 
     def get_bb(self):
-        return self.x - 10, self.y - 55, self.x + 30, self.y + 40
+        return self.x - 10, self.y - 55, self.x + 40, self.y + 40
 
     def handle_collision(self, other, group):
         print('boy meet ball')

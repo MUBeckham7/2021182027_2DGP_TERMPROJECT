@@ -4,9 +4,11 @@ import game_world
 
 from background import BackGround
 from jin import Jin
+from kazuya import Kazuya
 
 background = None
 jin = None
+kazuya = None
 
 
 def handle_events():
@@ -18,16 +20,19 @@ def handle_events():
             game_framework.quit()
         else:
             jin.handle_event(event)
+            kazuya.handle_event(event)
 
 
 def enter():
-    global background,jin
+    global background,jin,kazuya
     jin=Jin()
+    kazuya=Kazuya()
     background = BackGround()
     game_world.add_object(background, 0)
     game_world.add_object(jin,1)
-    # game_world.add_collision_group(jin,kazuya,'jin:kazuya')
+    game_world.add_object(kazuya,1)
 
+    game_world.add_collision_group(jin,kazuya,'jin:kazuya')
 
 def exit():
     game_world.clear()
