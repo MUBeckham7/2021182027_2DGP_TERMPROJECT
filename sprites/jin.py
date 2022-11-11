@@ -62,7 +62,7 @@ class RUN:
 
 class PUNCH:
     def enter(self, event):
-        self.punch_1 = 1
+        self.punch_1 = 3
         print('ENTER PUNCH')
     def exit(self, event):
         print('EXIT PUNCH')
@@ -76,7 +76,7 @@ class PUNCH:
 
 class KICK:
     def enter(self, event):
-        self.kick_1 = 1
+        self.kick_1 = 2
         print('ENTER KICK')
 
     def exit(self, event):

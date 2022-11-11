@@ -75,7 +75,7 @@ class PUNCH:
 
 class KICK:
     def enter(self, event):
-        self.kick_1 = 1
+        self.kick_1 = 3
         print('ENTER KICK')
 
     def exit(self, event):
@@ -86,7 +86,7 @@ class KICK:
         delay(0.1)
 
     def draw(self):
-        self.image.clip_draw((self.kick_1) * 142+0,1000,120,140,self.x,self.y)
+        self.image.clip_draw((self.kick_1) * 142-30,1000,120,140,self.x,self.y)
 
 
 next_state = {
