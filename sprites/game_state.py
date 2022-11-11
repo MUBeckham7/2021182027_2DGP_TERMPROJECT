@@ -8,12 +8,14 @@ import title_state
 from background import BackGround
 from jin import Jin
 from kazuya import Kazuya
+from gameover import GameOver
 
 background = None
 jin = None
 kazuya = None
+gameover=None
+gameoverTF=False
 start_ticks=None
-gameover=False
 sec=0
 i=0
 total_time = 10
@@ -32,10 +34,11 @@ def handle_events():
 
 def enter():
     global background,jin,kazuya
-    global start_ticks
+    global start_ticks,gameover,gameoverTF
     jin=Jin()
     kazuya=Kazuya()
     background = BackGround()
+    gameover = GameOver()
     game_world.add_object(background, 0)
     game_world.add_object(jin,1)
     game_world.add_object(kazuya,1)
@@ -48,7 +51,7 @@ def exit():
 
 
 def update():
-    global sec
+    global sec,gameoverTF
     for game_object in game_world.all_objects():
         game_object.update()
 
@@ -61,7 +64,9 @@ def update():
     elapsed_time = (pygame.time.get_ticks() - start_ticks) / 1000
             # display_time(total_time - int(elapsed_time))
 
-    #if total_time - int(elapsed_time) <= 0:
+    if total_time - int(elapsed_time) <= 0:
+        game_world.add_object(gameover, 1)
+
 
     if total_time - int(elapsed_time) <= -3:
         game_framework.change_state(title_state)
