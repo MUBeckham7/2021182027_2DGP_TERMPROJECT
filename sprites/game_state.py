@@ -1,6 +1,9 @@
 from pico2d import *
 import game_framework
 import game_world
+import pygame
+import game_framework
+import title_state
 
 from background import BackGround
 from jin import Jin
@@ -9,7 +12,11 @@ from kazuya import Kazuya
 background = None
 jin = None
 kazuya = None
-
+start_ticks=None
+gameover=False
+sec=0
+i=0
+total_time = 10
 
 def handle_events():
     events = get_events()
@@ -25,6 +32,7 @@ def handle_events():
 
 def enter():
     global background,jin,kazuya
+    global start_ticks
     jin=Jin()
     kazuya=Kazuya()
     background = BackGround()
@@ -34,11 +42,13 @@ def enter():
 
     game_world.add_collision_group(jin,kazuya,'jin:kazuya')
 
+    start_ticks = pygame.time.get_ticks()
 def exit():
     game_world.clear()
 
 
 def update():
+    global sec
     for game_object in game_world.all_objects():
         game_object.update()
 
@@ -47,6 +57,18 @@ def update():
             print('Collision by', group)
             a.handle_collision(b, group)
             b.handle_collision(a, group)
+
+    elapsed_time = (pygame.time.get_ticks() - start_ticks) / 1000
+            # display_time(total_time - int(elapsed_time))
+
+    #if total_time - int(elapsed_time) <= 0:
+
+    if total_time - int(elapsed_time) <= -3:
+        game_framework.change_state(title_state)
+        sec += 1
+
+    if sec == 50:
+        sec =  0
 
 
 def draw_world():
