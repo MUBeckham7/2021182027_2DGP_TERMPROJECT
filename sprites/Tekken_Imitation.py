@@ -1,5 +1,4 @@
 from pico2d import *
-import pygame
 import os
 Screen_width,Screen_Height = 1200,800
 

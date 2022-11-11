@@ -4,14 +4,14 @@ RD, LD, RU, LU, PU,PD, KU,KD = range(8)
 event_name = ['RD', 'LD', 'RU', 'LU', 'PU', 'KU','PD','KD']
 
 key_event_table = {
-    (SDL_KEYDOWN, SDLK_a): LD,
-    (SDL_KEYDOWN, SDLK_d): RD,
-    (SDL_KEYUP, SDLK_a): LU,
-    (SDL_KEYUP, SDLK_d): RU,
-    (SDL_KEYDOWN, SDLK_SPACE): PU,
-    (SDL_KEYDOWN, SDLK_k): KU,
-    (SDL_KEYUP, SDLK_SPACE): PD,
-    (SDL_KEYUP, SDLK_k): KD,
+    (SDL_KEYDOWN, SDLK_LEFT): LD,
+    (SDL_KEYDOWN, SDLK_RIGHT): RD,
+    (SDL_KEYUP, SDLK_LEFT): LU,
+    (SDL_KEYUP, SDLK_RIGHT): RU,
+    (SDL_KEYDOWN, SDLK_KP_0): PU,
+    (SDL_KEYDOWN, SDLK_KP_5): KU,
+    (SDL_KEYUP, SDLK_KP_0): PD,
+    (SDL_KEYUP, SDLK_KP_5): KD,
 }
 
 class IDLE:
@@ -26,24 +26,24 @@ class IDLE:
 
     @staticmethod
     def do(self):
-        self.frame = (self.frame + 1) % 4
+        self.frame = (self.frame + 1) % 6
 
     @staticmethod
     def draw(self):
-        self.image.clip_draw(self.frame * 160, 2580, 100, 140, self.x, self.y)
+        self.image.clip_draw((self.frame * 142) + 830, 2520, 120, 140, self.x, self.y)
 
 
 class RUN:
     def enter(self, event):
         print('ENTER RUN')
         if event == RD:
-            self.dir += 0.3
-        elif event == LD:
-            self.dir -= 0.1
-        elif event == RU:
-            self.dir -= 0.3
-        elif event == LU:
             self.dir += 0.1
+        elif event == LD:
+            self.dir -= 0.3
+        elif event == RU:
+            self.dir -= 0.1
+        elif event == LU:
+            self.dir += 0.3
 
     def exit(self, event):
         print('EXIT RUN')
@@ -55,39 +55,38 @@ class RUN:
         self.x = clamp(0, self.x, 800)
 
     def draw(self):
-        if self.dir == 0.3:
-            self.image.clip_draw(self.frame * 160, 2580, 100, 140, self.x, self.y)
-        if self.dir == -0.1:
-            self.image.clip_draw(640, 80, 130, 100, self.x, self.y)
+        if self.dir == 0.1:
+            self.image.clip_draw(-20, 250, 120, 140, self.x, self.y)
+        if self.dir == -0.3:
+            self.image.clip_draw((self.frame * 142) + 830, 2520, 120, 140, self.x, self.y)
 
 class PUNCH:
     def enter(self, event):
-        self.punch_1 = 3
+        self.punch_1 = 1
         print('ENTER PUNCH')
     def exit(self, event):
         print('EXIT PUNCH')
 
     def do(self):
-        self.punch_1 = (self.punch_1 + 1) % 4
+        self.punch_1 = (self.punch_1 + 1) % 3
         delay(0.1)
-        pass
     def draw(self):
-        self.image.clip_draw((self.punch_1) * 170, 1220, 115, 140, self.x, self.y)
+        self.image.clip_draw((self.punch_1) * 142+1120, 1000, 120, 140, self.x, self.y)
 
 class KICK:
     def enter(self, event):
-        self.kick_1 = 2
+        self.kick_1 = 3
         print('ENTER KICK')
 
     def exit(self, event):
         print('EXIT KICK')
 
     def do(self):
-        self.kick_1 = (self.kick_1 + 1) % 5
+        self.kick_1 = (self.kick_1 + 1) % 4
         delay(0.1)
 
     def draw(self):
-        self.image.clip_draw((self.kick_1 * 170 )+ 630, 1220, 130, 160, self.x, self.y)
+        self.image.clip_draw((self.kick_1) * 142-30,1000,120,140,self.x,self.y)
 
 
 next_state = {
@@ -98,13 +97,13 @@ next_state = {
 }
 
 
-class Jin:
+class Kazuya:
 
     def __init__(self):
-        self.x, self.y = 200, 200
+        self.x, self.y = 600, 200
         self.frame = 0
         self.dir, self.face_dir = 0, 1
-        self.image = load_image('Jin.png')
+        self.image = load_image('Kazuya_reverse.png')
 
         self.event_que = []
         self.cur_state = IDLE
@@ -135,7 +134,7 @@ class Jin:
             self.add_event(key_event)
 
     def get_bb(self):
-        return self.x - 10, self.y - 55, self.x + 40, self.y + 40
+        return self.x + 10, self.y - 55, self.x + 60, self.y + 50
 
     def handle_collision(self, other, group):
         print('boy meet ball')
