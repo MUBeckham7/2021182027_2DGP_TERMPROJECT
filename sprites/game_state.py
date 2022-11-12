@@ -14,6 +14,7 @@ from leftlifebar import LeftLifeBar
 from rightlifebar import RightLifeBar
 from timefont import Timefont
 
+
 background = None
 jin = None
 kazuya = None
@@ -29,6 +30,9 @@ total_time = 100
 timefont = None
 elapsed_time = 0
 
+
+
+
 def handle_events():
     events = get_events()
     for event in events:
@@ -43,7 +47,7 @@ def handle_events():
 
 def enter():
     global background,jin,kazuya,lifebar,leftlifebar,rightlifebar
-    global start_ticks,gameover,gameoverTF,timefont,JinPunch
+    global start_ticks,gameover,gameoverTF,timefont
     jin=Jin()
     kazuya=Kazuya()
     background = BackGround()
@@ -60,12 +64,11 @@ def enter():
     game_world.add_object(rightlifebar,1)
     game_world.add_object(timefont,1)
     game_world.add_collision_group(jin,kazuya,'jin:kazuya')
-    game_world.add_collision_group(JinPunch,kazuya,'jinPunch:kazuya')
+
 
     start_ticks = pygame.time.get_ticks()
 def exit():
     game_world.clear()
-
 
 def update():
     global sec,gameoverTF,elapsed_time
@@ -115,6 +118,7 @@ def resume():
 def collide(a, b):
     la, ba, ra, ta = a.get_bb()
     lb, bb, rb, tb = b.get_bb()
+
 
     if la > rb: return False
     if ra < lb: return False
