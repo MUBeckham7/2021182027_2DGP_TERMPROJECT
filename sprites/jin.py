@@ -94,7 +94,7 @@ class PUNCH:
         print(self.x,',',self.y)
         print('draw:',self.x+40)
     def get_bb(self):
-        pass
+        return a ,b,a+20,b+20
 
     def handle_collision(self, other, group):
         print('kazuya punched by jin')
