@@ -24,7 +24,7 @@ leftlifebar=None
 rightlifebar = None
 sec=0
 i=0
-total_time = 10
+total_time = 100
 
 def handle_events():
     events = get_events()
