@@ -65,8 +65,8 @@ class RUN:
 
 class PUNCH:
     def __init__(self):
-        self.x = 0
-        self.y = 0
+        self.x
+        self.y
     def enter(self, event):
         self.punch_1 = 3
         print('ENTER PUNCH')
@@ -79,7 +79,20 @@ class PUNCH:
         delay(0.1)
 
     def draw(self):
+        draw_rectangle(*self.get_bb())
         self.image.clip_draw((self.punch_1) * 170, 1220, 115, 140, self.x, self.y)
+        self.a = self.x
+        self.b = self.y
+
+
+    def get_bb(self):
+        self.x = self.a
+        self.y = self.b
+        print(self.x,' , ',self.y)
+        return self.x ,self.y,self.x+200,self.y+200
+
+    def handle_collision(self, other, group):
+        print('kazuya punched by jin')
 
 
 
