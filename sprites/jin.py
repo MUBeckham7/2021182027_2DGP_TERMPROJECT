@@ -14,12 +14,15 @@ key_event_table = {
     (SDL_KEYUP, SDLK_SPACE): PD,
     (SDL_KEYUP, SDLK_k): KD,
 }
+state= 0
 
 class IDLE:
     @staticmethod
     def enter(self, event):
+        global state
         print('ENTER IDLE')
         self.dir = 0
+        state = 1
 
     @staticmethod
     def exit(self, event):
@@ -36,6 +39,7 @@ class IDLE:
 
 class RUN:
     def enter(self, event):
+        global state
         print('ENTER RUN')
         if event == RD:
             self.dir += 0.3
@@ -45,7 +49,7 @@ class RUN:
             self.dir -= 0.3
         elif event == LU:
             self.dir += 0.1
-
+        state = 2
     def exit(self, event):
         print('EXIT RUN')
         self.face_dir = self.dir
@@ -61,24 +65,31 @@ class RUN:
         if self.dir == -0.1:
             self.image.clip_draw(640, 80, 130, 100, self.x, self.y)
 
+
 class PUNCH:
     def enter(self, event):
+        global state
         self.punch_1 = 3
         print('ENTER PUNCH')
+        state = 3
     def exit(self, event):
         print('EXIT PUNCH')
 
     def do(self):
         self.punch_1 = (self.punch_1 + 1) % 4
         delay(0.1)
-        pass
     def draw(self):
-        self.image.clip_draw((self.punch_1) * 170, 1220, 115, 140, self.x, self.y)
+        self.image.clip_draw((self.punch_1) * 170, 1220, 115, 140, self.x , self.y)
+
+
+
 
 class KICK:
     def enter(self, event):
+        global state
         self.kick_1 = 2
         print('ENTER KICK')
+        state = 4
 
     def exit(self, event):
         print('EXIT KICK')
@@ -136,7 +147,7 @@ class Jin:
             self.add_event(key_event)
 
     def get_bb(self):
-        return self.x - 10, self.y - 55, self.x + 40, self.y + 40
+            return self.x - 10, self.y - 55, self.x + 40, self.y + 40
 
     def handle_collision(self, other, group):
         print('boy meet ball')
