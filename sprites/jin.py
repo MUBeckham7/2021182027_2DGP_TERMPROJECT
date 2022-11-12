@@ -91,10 +91,10 @@ class PUNCH:
         a= self.x+40
         b= self.y+20
         draw_rectangle(self.x+30 ,self.y+10,self.x+60,self.y+25)
-
+        print(self.x,',',self.y)
         print('draw:',self.x+40)
     def get_bb(self):
-        return a ,b,a+20,b+20
+        pass
 
     def handle_collision(self, other, group):
         print('kazuya punched by jin')
