@@ -62,16 +62,23 @@ class RUN:
         if self.dir == -0.1:
             self.image.clip_draw(640, 80, 130, 100, self.x, self.y)
 
+a = 0
+b = 0
+
 
 class PUNCH:
     def __init__(self):
-        self.x
-        self.y
+        self.x = 200
+        self.y = 200
+
+
     def enter(self, event):
         self.punch_1 = 3
         print('ENTER PUNCH')
 
     def exit(self, event):
+        global a,b
+        a,b=0,0
         print('EXIT PUNCH')
 
     def do(self):
@@ -79,17 +86,15 @@ class PUNCH:
         delay(0.1)
 
     def draw(self):
-        draw_rectangle(*self.get_bb())
+        global a,b
         self.image.clip_draw((self.punch_1) * 170, 1220, 115, 140, self.x, self.y)
-        self.a = self.x
-        self.b = self.y
+        a= self.x+40
+        b= self.y+20
+        draw_rectangle(self.x+30 ,self.y+10,self.x+60,self.y+25)
 
-
+        print('draw:',self.x+40)
     def get_bb(self):
-        self.x = self.a
-        self.y = self.b
-        print(self.x,' , ',self.y)
-        return self.x ,self.y,self.x+200,self.y+200
+        return a ,b,a+20,b+20
 
     def handle_collision(self, other, group):
         print('kazuya punched by jin')
@@ -99,19 +104,19 @@ class PUNCH:
 
 class KICK:
     def enter(self, event):
-        self.kick_1 = 2
+        self.kick_1 = 3
         print('ENTER KICK')
 
     def exit(self, event):
         print('EXIT KICK')
 
     def do(self):
-        self.kick_1 = (self.kick_1 + 1) % 5
+        self.kick_1 = (self.kick_1 + 1) % 4
         delay(0.1)
 
     def draw(self):
-        self.image.clip_draw((self.kick_1 * 170) + 630, 1220, 130, 160, self.x, self.y)
-        draw_rectangle(self.x+100,self.y+130,self.x + 150,self.y +140)
+        self.image.clip_draw((self.kick_1 * 170) + 780, 1220, 130, 160, self.x, self.y)
+        draw_rectangle(self.x+40,self.y,self.x + 65,self.y + 30)
 
 next_state = {
     IDLE: {RU: RUN, LU: RUN, RD: RUN, LD: RUN, PD: PUNCH, PU: PUNCH, KD: KICK, KU: KICK},

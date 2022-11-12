@@ -73,6 +73,7 @@ class PUNCH:
         delay(0.1)
     def draw(self):
         self.image.clip_draw((self.punch_1) * 142+1120, 1000, 120, 140, self.x, self.y)
+        draw_rectangle(self.x+10,self.y+15,self.x-20,self.y + 30)
 
 class KICK:
     def enter(self, event):
@@ -88,6 +89,7 @@ class KICK:
 
     def draw(self):
         self.image.clip_draw((self.kick_1) * 142-30,1000,120,140,self.x,self.y)
+        draw_rectangle(self.x+10,self.y+5,self.x-25,self.y + 35)
 
 
 next_state = {
