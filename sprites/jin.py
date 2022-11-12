@@ -150,4 +150,4 @@ class Jin:
     def handle_collision(self, other, group):
         print('boy meet ball')
         leftlifebar.a += 1
-        delay(0.3)
+        delay(0.1)

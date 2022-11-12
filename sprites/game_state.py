@@ -14,7 +14,6 @@ from leftlifebar import LeftLifeBar
 from rightlifebar import RightLifeBar
 from timefont import Timefont
 
-
 background = None
 jin = None
 kazuya = None
@@ -25,7 +24,7 @@ lifebar = None
 leftlifebar=None
 rightlifebar = None
 sec=0
-i=0
+i=30
 total_time = 100
 timefont = None
 elapsed_time = 0
@@ -71,7 +70,7 @@ def exit():
     game_world.clear()
 
 def update():
-    global sec,gameoverTF,elapsed_time
+    global sec,gameoverTF,elapsed_time,total_time,i
     for game_object in game_world.all_objects():
         game_object.update()
 
@@ -87,6 +86,12 @@ def update():
     if total_time - int(elapsed_time) <= 0:
         game_world.add_object(gameover, 1)
 
+    import leftlifebar
+    if leftlifebar.a >= 164:
+        game_world.add_object(gameover, 1)
+        i -= 1
+        if i == 0:
+            game_framework.change_state(title_state)
 
     if total_time - int(elapsed_time) <= -3:
         game_framework.change_state(title_state)
