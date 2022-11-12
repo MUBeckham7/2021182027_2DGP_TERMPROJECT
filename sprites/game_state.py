@@ -25,7 +25,8 @@ lifebar = None
 leftlifebar=None
 rightlifebar = None
 sec=0
-i=30
+i=700
+k=700
 total_time = 100
 timefont = None
 elapsed_time = 0
@@ -72,7 +73,8 @@ def exit():
     game_world.clear()
 
 def update():
-    global sec,gameoverTF,elapsed_time,total_time,i
+    global sec,gameoverTF,elapsed_time,total_time
+
     for game_object in game_world.all_objects():
         game_object.update()
 
@@ -90,9 +92,18 @@ def update():
 
     import leftlifebar
     if leftlifebar.a >= 164:
+        global i
         game_world.add_object(gameover, 1)
         i -= 1
         if i == 0:
+            game_framework.change_state(title_state)
+
+    import rightlifebar
+    if rightlifebar.a >= 164:
+        global k
+        game_world.add_object(gameover,1)
+        k -= 1
+        if k == 0:
             game_framework.change_state(title_state)
 
     if total_time - int(elapsed_time) <= -3:

@@ -1,5 +1,6 @@
 from pico2d import *
 import leftlifebar
+import rightlifebar
 
 RD, LD, RU, LU, PU, PD, KU, KD = range(8)
 event_name = ['RD', 'LD', 'RU', 'LU', 'PU', 'KU', 'PD', 'KD']
@@ -91,8 +92,6 @@ class PUNCH:
         a= self.x+40
         b= self.y+20
         draw_rectangle(self.x+30 ,self.y+10,self.x+60,self.y+25)
-        print(self.x,',',self.y)
-        print('draw:',self.x+40)
     def get_bb(self):
         return a ,b,a+20,b+20
 
@@ -166,6 +165,4 @@ class Jin:
         return self.x - 10, self.y - 55, self.x + 40, self.y + 40
 
     def handle_collision(self, other, group):
-        print('boy meet ball')
         leftlifebar.a += 1
-        delay(0.1)

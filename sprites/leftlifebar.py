@@ -13,7 +13,7 @@ class LeftLifeBar:
         pass
 
     def draw(self):
-        global a, b
+        global a
         self.image.clip_composite_draw(0, 0, 460, 50, 0, '', 185 + (0.9 * a), 510, 325 - (2 * a), 40)
 
         #if a == 164:

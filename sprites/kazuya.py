@@ -140,7 +140,6 @@ class Kazuya:
         return self.x + 10, self.y - 55, self.x + 60, self.y + 50
 
     def handle_collision(self, other, group):
-        print('boy meet ball')
         rightlifebar.a += 1
 
 
