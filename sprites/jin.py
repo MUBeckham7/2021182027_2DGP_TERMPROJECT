@@ -1,8 +1,8 @@
 from pico2d import *
 import leftlifebar
 
-RD, LD, RU, LU, PU,PD, KU,KD = range(8)
-event_name = ['RD', 'LD', 'RU', 'LU', 'PU', 'KU','PD','KD']
+RD, LD, RU, LU, PU, PD, KU, KD = range(8)
+event_name = ['RD', 'LD', 'RU', 'LU', 'PU', 'KU', 'PD', 'KD']
 
 key_event_table = {
     (SDL_KEYDOWN, SDLK_a): LD,
@@ -14,15 +14,13 @@ key_event_table = {
     (SDL_KEYUP, SDLK_SPACE): PD,
     (SDL_KEYUP, SDLK_k): KD,
 }
-state= 0
+
 
 class IDLE:
     @staticmethod
     def enter(self, event):
-        global state
         print('ENTER IDLE')
         self.dir = 0
-        state = 1
 
     @staticmethod
     def exit(self, event):
@@ -39,7 +37,6 @@ class IDLE:
 
 class RUN:
     def enter(self, event):
-        global state
         print('ENTER RUN')
         if event == RD:
             self.dir += 0.3
@@ -49,7 +46,7 @@ class RUN:
             self.dir -= 0.3
         elif event == LU:
             self.dir += 0.1
-        state = 2
+
     def exit(self, event):
         print('EXIT RUN')
         self.face_dir = self.dir
@@ -67,29 +64,30 @@ class RUN:
 
 
 class PUNCH:
+    def __init__(self):
+        self.x = 0
+        self.y = 0
     def enter(self, event):
-        global state
         self.punch_1 = 3
         print('ENTER PUNCH')
-        state = 3
+
     def exit(self, event):
         print('EXIT PUNCH')
 
     def do(self):
         self.punch_1 = (self.punch_1 + 1) % 4
         delay(0.1)
+
     def draw(self):
-        self.image.clip_draw((self.punch_1) * 170, 1220, 115, 140, self.x , self.y)
+        self.image.clip_draw((self.punch_1) * 170, 1220, 115, 140, self.x, self.y)
 
 
 
 
 class KICK:
     def enter(self, event):
-        global state
         self.kick_1 = 2
         print('ENTER KICK')
-        state = 4
 
     def exit(self, event):
         print('EXIT KICK')
@@ -99,14 +97,14 @@ class KICK:
         delay(0.1)
 
     def draw(self):
-        self.image.clip_draw((self.kick_1 * 170 )+ 630, 1220, 130, 160, self.x, self.y)
-
+        self.image.clip_draw((self.kick_1 * 170) + 630, 1220, 130, 160, self.x, self.y)
+        draw_rectangle(self.x+100,self.y+130,self.x + 150,self.y +140)
 
 next_state = {
-    IDLE: {RU: RUN, LU: RUN, RD: RUN, LD: RUN ,PD:PUNCH,PU:PUNCH,KD:KICK,KU:KICK},
-    RUN: {RU:IDLE,LU:IDLE,RD:IDLE,LD:IDLE,PD:PUNCH,PU:PUNCH, KD:KICK,KU:KICK},
-    PUNCH:{RU:PUNCH,LU:PUNCH,RD:PUNCH,LD:PUNCH,PU:IDLE,PD:IDLE,KU:PUNCH,KD:PUNCH},
-    KICK:{RU:KICK,LU:KICK,RD:KICK,LD:KICK,PD:KICK,PU:KICK,KU:IDLE,KD:IDLE}
+    IDLE: {RU: RUN, LU: RUN, RD: RUN, LD: RUN, PD: PUNCH, PU: PUNCH, KD: KICK, KU: KICK},
+    RUN: {RU: IDLE, LU: IDLE, RD: IDLE, LD: IDLE, PD: PUNCH, PU: PUNCH, KD: KICK, KU: KICK},
+    PUNCH: {RU: PUNCH, LU: PUNCH, RD: PUNCH, LD: PUNCH, PU: IDLE, PD: IDLE, KU: PUNCH, KD: PUNCH},
+    KICK: {RU: KICK, LU: KICK, RD: KICK, LD: KICK, PD: KICK, PU: KICK, KU: IDLE, KD: IDLE}
 }
 
 
@@ -147,11 +145,9 @@ class Jin:
             self.add_event(key_event)
 
     def get_bb(self):
-            return self.x - 10, self.y - 55, self.x + 40, self.y + 40
+        return self.x - 10, self.y - 55, self.x + 40, self.y + 40
 
     def handle_collision(self, other, group):
         print('boy meet ball')
         leftlifebar.a += 1
         delay(0.3)
-
-
