@@ -141,5 +141,7 @@ class Kazuya:
 
     def handle_collision(self, other, group):
         rightlifebar.a += 1
-
+        self.bgm = load_music('jin_punch_sound.mp3')
+        self.bgm.set_volume(15)
+        self.bgm.repeat_play()
 

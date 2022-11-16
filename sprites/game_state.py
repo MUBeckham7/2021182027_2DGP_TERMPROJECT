@@ -68,6 +68,7 @@ def enter():
     game_world.add_collision_group(jin,kazuya,'jin:kazuya')
     game_world.add_collision_group(jinPunch,kazuya,'jinpunch:kazuya')
 
+
     start_ticks = pygame.time.get_ticks()
 def exit():
     game_world.clear()
