@@ -14,6 +14,9 @@ from leftlifebar import LeftLifeBar
 from rightlifebar import RightLifeBar
 from timefont import Timefont
 from jin import PUNCH
+from kazuya import PUNCH1
+from jin import KICK
+from kazuya import KICK1
 
 background = None
 jin = None
@@ -30,7 +33,10 @@ k=700
 total_time = 100
 timefont = None
 elapsed_time = 0
-jinPunch =None
+jinPunch = None
+kazuya_Punch = None
+jinKick = None
+kazuyaKick = None
 
 
 
@@ -48,7 +54,8 @@ def handle_events():
 
 def enter():
     global background,jin,kazuya,lifebar,leftlifebar,rightlifebar
-    global start_ticks,gameover,gameoverTF,timefont,jinPunch
+    global start_ticks,gameover,gameoverTF,timefont,jinPunch,kazuya_Punch
+    global jinKick,kazuyaKick
     jin=Jin()
     kazuya=Kazuya()
     background = BackGround()
@@ -58,6 +65,8 @@ def enter():
     rightlifebar= RightLifeBar()
     timefont = Timefont()
     jinPunch = PUNCH()
+    kazuya_Punch = PUNCH1()
+    jinKick = KICK()
     game_world.add_object(background, 0)
     game_world.add_object(jin,1)
     game_world.add_object(kazuya,1)
@@ -65,8 +74,11 @@ def enter():
     game_world.add_object(leftlifebar,1)
     game_world.add_object(rightlifebar,1)
     game_world.add_object(timefont,1)
-    game_world.add_collision_group(jin,kazuya,'jin:kazuya')
+    #game_world.add_collision_group(jin,kazuya,'jin:kazuya')
     game_world.add_collision_group(jinPunch,kazuya,'jinpunch:kazuya')
+    game_world.add_collision_group(kazuya_Punch,jin,'kazuya_Punch:jin')
+    game_world.add_collision_group(jinKick,kazuya,'jinKick:kazuya')
+    game_world.add_collision_group(kazuyaKick,jin,'kazuyaKick')
 
 
     start_ticks = pygame.time.get_ticks()
@@ -97,15 +109,21 @@ def update():
         game_world.add_object(gameover, 1)
         i -= 1
         if i == 0:
+            i=700
+            game_world.remove_object(gameover)
             game_framework.change_state(title_state)
+            leftlifebar.a = 0
 
     import rightlifebar
     if rightlifebar.a >= 164:
         global k
-        game_world.add_object(gameover,1)
+        game_world.add_object(gameover , 1)
         k -= 1
         if k == 0:
+            k=700
+            game_world.remove_object(gameover)
             game_framework.change_state(title_state)
+            rightlifebar.a = 0
 
     if total_time - int(elapsed_time) <= -3:
         game_framework.change_state(title_state)

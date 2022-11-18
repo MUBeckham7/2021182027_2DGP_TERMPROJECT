@@ -1,8 +1,8 @@
 from pico2d import *
 import rightlifebar
 
-RD, LD, RU, LU, PU,PD, KU,KD = range(8)
-event_name = ['RD', 'LD', 'RU', 'LU', 'PU', 'KU','PD','KD']
+RD, LD, RU, LU, PU, PD, KU, KD = range(8)
+event_name = ['RD', 'LD', 'RU', 'LU', 'PU', 'KU', 'PD', 'KD']
 
 key_event_table = {
     (SDL_KEYDOWN, SDLK_LEFT): LD,
@@ -14,6 +14,7 @@ key_event_table = {
     (SDL_KEYUP, SDLK_KP_0): PD,
     (SDL_KEYUP, SDLK_KP_5): KD,
 }
+
 
 class IDLE:
     @staticmethod
@@ -61,21 +62,48 @@ class RUN:
         if self.dir == -0.3:
             self.image.clip_draw((self.frame * 142) + 830, 2520, 120, 140, self.x, self.y)
 
-class PUNCH:
+
+a = 0
+b = 0
+
+
+class PUNCH1:
+    def __init__(self):
+        self.x = 600
+        self.y = 200
+
     def enter(self, event):
         self.punch_1 = 1
         print('ENTER PUNCH')
+
     def exit(self, event):
+        global a, b
+        a, b = 0, 0
         print('EXIT PUNCH')
 
     def do(self):
         self.punch_1 = (self.punch_1 + 1) % 3
         delay(0.1)
-    def draw(self):
-        self.image.clip_draw((self.punch_1) * 142+1120, 1000, 120, 140, self.x, self.y)
-        draw_rectangle(self.x+10,self.y+15,self.x-20,self.y + 30)
 
-class KICK:
+    def draw(self):
+        global a, b
+        self.image.clip_draw((self.punch_1) * 142 + 1120, 1000, 120, 140, self.x, self.y)
+        a = self.x
+        b = self.y
+        draw_rectangle(self.x + 10, self.y + 15, self.x - 20, self.y + 30)
+
+    def get_bb(self):
+        return  a - 20, b + 30,a+10, b+15
+
+    def handle_collision(self,other, group):
+        print('jin punched by kazuya')
+
+
+class KICK1:
+    def __init__(self):
+        self.x = 600
+        self.y = 200
+
     def enter(self, event):
         self.kick_1 = 3
         print('ENTER KICK')
@@ -88,15 +116,15 @@ class KICK:
         delay(0.1)
 
     def draw(self):
-        self.image.clip_draw((self.kick_1) * 142-30,1000,120,140,self.x,self.y)
-        draw_rectangle(self.x+10,self.y+5,self.x-25,self.y + 35)
+        self.image.clip_draw((self.kick_1) * 142 - 30, 1000, 120, 140, self.x, self.y)
+        draw_rectangle(self.x + 10, self.y + 5, self.x - 25, self.y + 35)
 
 
 next_state = {
-    IDLE: {RU: RUN, LU: RUN, RD: RUN, LD: RUN ,PD:PUNCH,PU:PUNCH,KD:KICK,KU:KICK},
-    RUN: {RU:IDLE,LU:IDLE,RD:IDLE,LD:IDLE,PD:PUNCH,PU:PUNCH, KD:KICK,KU:KICK},
-    PUNCH:{RU:PUNCH,LU:PUNCH,RD:PUNCH,LD:PUNCH,PU:IDLE,PD:IDLE,KU:PUNCH,KD:PUNCH},
-    KICK:{RU:KICK,LU:KICK,RD:KICK,LD:KICK,PD:KICK,PU:KICK,KU:IDLE,KD:IDLE}
+    IDLE: {RU: RUN, LU: RUN, RD: RUN, LD: RUN, PD: PUNCH1, PU: PUNCH1, KD: KICK1, KU: KICK1},
+    RUN: {RU: IDLE, LU: IDLE, RD: IDLE, LD: IDLE, PD: PUNCH1, PU: PUNCH1, KD: KICK1, KU: KICK1},
+    PUNCH1: {RU: PUNCH1, LU: PUNCH1, RD: PUNCH1, LD: PUNCH1, PU: IDLE, PD: IDLE, KU: PUNCH1, KD: PUNCH1},
+    KICK1: {RU: KICK1, LU: KICK1, RD: KICK1, LD: KICK1, PD: KICK1, PU: KICK1, KU: IDLE, KD: IDLE}
 }
 
 
@@ -143,5 +171,4 @@ class Kazuya:
         rightlifebar.a += 1
         self.bgm = load_music('jin_punch_sound.mp3')
         self.bgm.set_volume(15)
-        self.bgm.repeat_play()
-
+        self.bgm.play()

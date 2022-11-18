@@ -89,11 +89,12 @@ class PUNCH:
     def draw(self):
         global a,b
         self.image.clip_draw((self.punch_1) * 170, 1220, 115, 140, self.x, self.y)
-        a= self.x+40
-        b= self.y+20
+        a = self.x + 30
+        b = self.y + 10
         draw_rectangle(self.x+30 ,self.y+10,self.x+60,self.y+25)
+
     def get_bb(self):
-        return a ,b,a+20,b+20
+        return a ,b,a+30,b+15
 
     def handle_collision(self, other, group):
         print('kazuya punched by jin')
@@ -102,11 +103,17 @@ class PUNCH:
 
 
 class KICK:
+    def __init__(self):
+        self.x = 200
+        self.y = 200
+
     def enter(self, event):
         self.kick_1 = 3
         print('ENTER KICK')
 
     def exit(self, event):
+        global a, b
+        a, b = 0, 0
         print('EXIT KICK')
 
     def do(self):
@@ -114,8 +121,17 @@ class KICK:
         delay(0.1)
 
     def draw(self):
+        global a,b
         self.image.clip_draw((self.kick_1 * 170) + 780, 1220, 130, 160, self.x, self.y)
         draw_rectangle(self.x+40,self.y,self.x + 65,self.y + 30)
+        a = self.x + 40
+        b = self.y
+
+    def get_bb(self):
+        return a ,b,a+25,b+30
+
+    def handle_collision(self, other, group):
+        print('kazuya punched by jin')
 
 next_state = {
     IDLE: {RU: RUN, LU: RUN, RD: RUN, LD: RUN, PD: PUNCH, PU: PUNCH, KD: KICK, KU: KICK},
@@ -166,3 +182,6 @@ class Jin:
 
     def handle_collision(self, other, group):
         leftlifebar.a += 1
+        self.bgm = load_music('kazuya_punch_sound.mp3')
+        self.bgm.set_volume(15)
+        self.bgm.play()
