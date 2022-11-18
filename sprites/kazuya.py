@@ -105,10 +105,13 @@ class KICK1:
         self.y = 200
 
     def enter(self, event):
+
         self.kick_1 = 3
         print('ENTER KICK')
 
     def exit(self, event):
+        global a, b
+        a, b = 0, 0
         print('EXIT KICK')
 
     def do(self):
@@ -116,8 +119,17 @@ class KICK1:
         delay(0.1)
 
     def draw(self):
+        global a, b
         self.image.clip_draw((self.kick_1) * 142 - 30, 1000, 120, 140, self.x, self.y)
+        a = self.x
+        b = self.y
         draw_rectangle(self.x + 10, self.y + 5, self.x - 25, self.y + 35)
+
+    def get_bb(self):
+        return  a +10, b + 5 , a -25, b + 35
+
+    def handle_collision(self, other, group):
+        print('kazuya kickeed by jin')
 
 
 next_state = {
@@ -168,7 +180,7 @@ class Kazuya:
         return self.x + 10, self.y - 55, self.x + 60, self.y + 50
 
     def handle_collision(self, other, group):
-        rightlifebar.a += 1
+        rightlifebar.a += 5
         self.bgm = load_music('jin_punch_sound.mp3')
         self.bgm.set_volume(15)
         self.bgm.play()

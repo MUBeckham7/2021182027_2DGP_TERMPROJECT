@@ -131,7 +131,7 @@ class KICK:
         return a ,b,a+25,b+30
 
     def handle_collision(self, other, group):
-        print('kazuya punched by jin')
+        print('kazuya kicked by jin')
 
 next_state = {
     IDLE: {RU: RUN, LU: RUN, RD: RUN, LD: RUN, PD: PUNCH, PU: PUNCH, KD: KICK, KU: KICK},
@@ -181,7 +181,7 @@ class Jin:
         return self.x - 10, self.y - 55, self.x + 40, self.y + 40
 
     def handle_collision(self, other, group):
-        leftlifebar.a += 1
+        leftlifebar.a += 5
         self.bgm = load_music('kazuya_punch_sound.mp3')
         self.bgm.set_volume(15)
         self.bgm.play()

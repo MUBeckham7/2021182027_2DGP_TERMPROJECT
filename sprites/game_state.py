@@ -67,6 +67,7 @@ def enter():
     jinPunch = PUNCH()
     kazuya_Punch = PUNCH1()
     jinKick = KICK()
+    kazuyaKick = KICK1()
     game_world.add_object(background, 0)
     game_world.add_object(jin,1)
     game_world.add_object(kazuya,1)
@@ -78,7 +79,7 @@ def enter():
     game_world.add_collision_group(jinPunch,kazuya,'jinpunch:kazuya')
     game_world.add_collision_group(kazuya_Punch,jin,'kazuya_Punch:jin')
     game_world.add_collision_group(jinKick,kazuya,'jinKick:kazuya')
-    game_world.add_collision_group(kazuyaKick,jin,'kazuyaKick')
+    game_world.add_collision_group(kazuyaKick,jin,'kazuyaKick:jin')
 
 
     start_ticks = pygame.time.get_ticks()
