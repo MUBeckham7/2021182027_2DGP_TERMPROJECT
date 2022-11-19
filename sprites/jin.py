@@ -67,10 +67,18 @@ class RUN:
         self.x = clamp(0, self.x, 800)
 
     def draw(self):
-        if self.dir == 0.3:
-            self.image.clip_draw(self.frame * 160, 2580, 100, 140, self.x, self.y)
-        if self.dir == -0.1:
-            self.image.clip_draw(640, 80, 130, 100, self.x, self.y)
+        global i
+        if game_state.j_hit == True:
+            i -= 1
+            self.image.clip_composite_draw(785, 2190, 120, 140, 0, '', self.x, self.y, 120, 150)
+            if i == 0:
+                i = 100
+                game_state.j_hit = False
+        else:
+            if self.dir == 0.3:
+                self.image.clip_draw(self.frame * 160, 2580, 100, 140, self.x, self.y)
+            if self.dir == -0.1:
+                self.image.clip_draw(640, 80, 130, 100, self.x, self.y)
 
 a = 0
 b = 0
@@ -97,18 +105,29 @@ class PUNCH:
 
     def draw(self):
         global a,b
-        self.image.clip_draw((self.punch_1) * 170, 1220, 115, 140, self.x, self.y)
+        global i
+        if game_state.j_hit == True:
+            i -= 1
+            self.image.clip_composite_draw(785, 2190, 120, 140, 0, '', self.x, self.y, 120, 150)
+            if i == 0:
+                i = 100
+                game_state.j_hit = False
+        else:
+            self.image.clip_draw((self.punch_1) * 170, 1220, 115, 140, self.x, self.y)
+            draw_rectangle(self.x + 30, self.y + 10, self.x + 60, self.y + 25)
         a = self.x + 30
         b = self.y + 10
-        draw_rectangle(self.x+30 ,self.y+10,self.x+60,self.y+25)
+
 
     def get_bb(self):
-        return a ,b,a+30,b+15
+        global i
+        if i == 100:
+            return a ,b,a+30,b+15
+        else:
+            return 0,0,0,0
 
     def handle_collision(self, other, group):
         print('kazuya punched by jin')
-
-
 
 
 class KICK:
@@ -131,13 +150,25 @@ class KICK:
 
     def draw(self):
         global a,b
-        self.image.clip_draw((self.kick_1 * 170) + 780, 1220, 130, 160, self.x, self.y)
-        draw_rectangle(self.x+40,self.y,self.x + 65,self.y + 30)
+        global i
+        if game_state.j_hit == True:
+            i -= 1
+            self.image.clip_composite_draw(785, 2190, 120, 140, 0, '', self.x, self.y, 120, 150)
+            if i == 0:
+                i = 100
+                game_state.j_hit = False
+        else:
+            self.image.clip_draw((self.kick_1 * 170) + 780, 1220, 130, 160, self.x, self.y)
+            draw_rectangle(self.x+40,self.y,self.x + 65,self.y + 30)
         a = self.x + 40
         b = self.y
 
     def get_bb(self):
-        return a ,b,a+25,b+30
+        global i
+        if i == 100:
+            return a ,b,a+25,b+30
+        else:
+            return 0,0,0,0
 
     def handle_collision(self, other, group):
         print('kazuya kicked by jin')

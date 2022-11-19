@@ -38,16 +38,12 @@ class IDLE:
         if game_state.k_hit == True:
             i -= 1
             self.image.clip_draw(690, 2140, 120, 140, self.x, self.y)
-            print(i)
             if i == 0:
                 i=100
                 game_state.k_hit = False
         else:
             self.image.clip_draw((self.frame * 142) + 830, 2520, 120, 140, self.x, self.y)
 
-
-ax=0
-ay=0
 
 class RUN:
     def enter(self, event):
@@ -75,7 +71,6 @@ class RUN:
         if game_state.k_hit == True:
             i -= 1
             self.image.clip_draw(690, 2140, 120, 140, self.x, self.y)
-            print(i)
             if i == 0:
                 i=100
                 game_state.k_hit = False
@@ -114,7 +109,6 @@ class PUNCH1:
         if game_state.k_hit == True:
             i -= 1
             self.image.clip_draw(690, 2140, 120, 140, self.x, self.y)
-            print(i)
             if i == 0:
                 i = 100
                 game_state.k_hit = False
@@ -143,7 +137,6 @@ class KICK1:
         self.y = 200
 
     def enter(self, event):
-
         self.kick_1 = 3
         print('ENTER KICK')
 
@@ -162,7 +155,6 @@ class KICK1:
         if game_state.k_hit == True:
             i -= 1
             self.image.clip_draw(690, 2140, 120, 140, self.x, self.y)
-            print(i)
             if i == 0:
                 i = 100
                 game_state.k_hit = False
