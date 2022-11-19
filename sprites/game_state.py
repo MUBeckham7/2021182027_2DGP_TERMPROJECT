@@ -17,6 +17,7 @@ from jin import PUNCH
 from kazuya import PUNCH1
 from jin import KICK
 from kazuya import KICK1
+from win import Win
 
 background = None
 jin = None
@@ -39,6 +40,9 @@ jinKick = None
 kazuyaKick = None
 k_hit = False
 j_hit = False
+win = None
+jin_win_count = 0
+kazuya_win_count = 0
 
 
 def handle_events():
@@ -56,7 +60,7 @@ def handle_events():
 def enter():
     global background,jin,kazuya,lifebar,leftlifebar,rightlifebar
     global start_ticks,gameover,gameoverTF,timefont,jinPunch,kazuya_Punch
-    global jinKick,kazuyaKick
+    global jinKick,kazuyaKick,win
     jin=Jin()
     kazuya=Kazuya()
     background = BackGround()
@@ -69,6 +73,7 @@ def enter():
     kazuya_Punch = PUNCH1()
     jinKick = KICK()
     kazuyaKick = KICK1()
+    win = Win()
     game_world.add_object(background, 0)
     game_world.add_object(jin,1)
     game_world.add_object(kazuya,1)
@@ -76,6 +81,7 @@ def enter():
     game_world.add_object(leftlifebar,1)
     game_world.add_object(rightlifebar,1)
     game_world.add_object(timefont,1)
+    game_world.add_object(win,1)
     #game_world.add_collision_group(jin,kazuya,'jin:kazuya')
     game_world.add_collision_group(jinPunch,kazuya,'jinpunch:kazuya')
     game_world.add_collision_group(kazuya_Punch,jin,'kazuya_Punch:jin')
@@ -115,7 +121,7 @@ def update():
     import rightlifebar
     import leftlifebar
     if leftlifebar.a >= 164:
-        global i
+        global i,kazuya_win_count
         game_world.add_object(gameover, 1)
         i -= 1
         if i == 0:
@@ -124,9 +130,10 @@ def update():
             game_framework.change_state(title_state)
             leftlifebar.a = 0
             rightlifebar.a = 0
+            kazuya_win_count +=1
 
     if rightlifebar.a >= 164:
-        global k
+        global k,jin_win_count
         game_world.add_object(gameover , 1)
         k -= 1
         if k == 0:
@@ -135,6 +142,7 @@ def update():
             game_framework.change_state(title_state)
             rightlifebar.a = 0
             leftlifebar.a = 0
+            jin_win_count += 1
 
     if total_time - int(elapsed_time) <= -3:
         game_framework.change_state(title_state)
