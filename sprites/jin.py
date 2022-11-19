@@ -1,5 +1,6 @@
 from pico2d import *
 import leftlifebar
+import game_state
 import rightlifebar
 
 RD, LD, RU, LU, PU, PD, KU, KD = range(8)
@@ -16,7 +17,7 @@ key_event_table = {
     (SDL_KEYUP, SDLK_k): KD,
 }
 
-
+i=100
 class IDLE:
     @staticmethod
     def enter(self, event):
@@ -33,7 +34,15 @@ class IDLE:
 
     @staticmethod
     def draw(self):
-        self.image.clip_draw(self.frame * 160, 2580, 100, 140, self.x, self.y)
+        global i
+        if game_state.j_hit == True:
+            i -= 1
+            self.image.clip_composite_draw(785, 2190, 120, 140,0,'', self.x, self.y,120,150)
+            if i == 0:
+                i=100
+                game_state.j_hit = False
+        else:
+            self.image.clip_draw(self.frame * 160, 2580, 100, 140, self.x, self.y)
 
 
 class RUN:

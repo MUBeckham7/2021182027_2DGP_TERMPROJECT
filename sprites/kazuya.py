@@ -238,6 +238,5 @@ class Kazuya:
         self.bgm = load_music('jin_punch_sound.mp3')
         self.bgm.set_volume(15)
         self.bgm.play()
-        self.image.clip_draw(690, 2140, 120, 140, self.x, self.y)
 
 
