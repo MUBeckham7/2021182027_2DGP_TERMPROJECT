@@ -1,5 +1,6 @@
 from pico2d import *
 import rightlifebar
+import game_state
 
 RD, LD, RU, LU, PU, PD, KU, KD = range(8)
 event_name = ['RD', 'LD', 'RU', 'LU', 'PU', 'KU', 'PD', 'KD']
@@ -15,7 +16,7 @@ key_event_table = {
     (SDL_KEYUP, SDLK_KP_5): KD,
 }
 
-
+i=100
 class IDLE:
     @staticmethod
     def enter(self, event):
@@ -32,8 +33,21 @@ class IDLE:
 
     @staticmethod
     def draw(self):
-        self.image.clip_draw((self.frame * 142) + 830, 2520, 120, 140, self.x, self.y)
+        global i
+        #self.image.clip_draw(690, 2140, 120, 140, self.x, self.y)
+        if game_state.k_hit == True:
+            i -= 1
+            self.image.clip_draw(690, 2140, 120, 140, self.x, self.y)
+            print(i)
+            if i == 0:
+                i=100
+                game_state.k_hit = False
+        else:
+            self.image.clip_draw((self.frame * 142) + 830, 2520, 120, 140, self.x, self.y)
 
+
+ax=0
+ay=0
 
 class RUN:
     def enter(self, event):
@@ -57,10 +71,19 @@ class RUN:
         self.x = clamp(0, self.x, 800)
 
     def draw(self):
-        if self.dir == 0.1:
-            self.image.clip_draw(-20, 250, 120, 140, self.x, self.y)
-        if self.dir == -0.3:
-            self.image.clip_draw((self.frame * 142) + 830, 2520, 120, 140, self.x, self.y)
+        global i
+        if game_state.k_hit == True:
+            i -= 1
+            self.image.clip_draw(690, 2140, 120, 140, self.x, self.y)
+            print(i)
+            if i == 0:
+                i=100
+                game_state.k_hit = False
+        else:
+            if self.dir == 0.1:
+                self.image.clip_draw(-20, 250, 120, 140, self.x, self.y)
+            if self.dir == -0.3:
+                self.image.clip_draw((self.frame * 142) + 830, 2520, 120, 140, self.x, self.y)
 
 
 a = 0
@@ -87,14 +110,29 @@ class PUNCH1:
 
     def draw(self):
         global a, b
-        self.image.clip_draw((self.punch_1) * 142 + 1120, 1000, 120, 140, self.x, self.y)
+        global i
+        if game_state.k_hit == True:
+            i -= 1
+            self.image.clip_draw(690, 2140, 120, 140, self.x, self.y)
+            print(i)
+            if i == 0:
+                i = 100
+                game_state.k_hit = False
+        else:
+            self.image.clip_draw((self.punch_1) * 142 + 1120, 1000, 120, 140, self.x, self.y)
+            draw_rectangle(self.x + 10, self.y + 15, self.x - 20, self.y + 30)
+
         a = self.x
         b = self.y
-        draw_rectangle(self.x + 10, self.y + 15, self.x - 20, self.y + 30)
+
 
     def get_bb(self):
-        return  a - 20, b + 30,a+10, b+15
+        global i
+        if i == 100:
+            return a - 20, b + 30, a + 10, b + 15
 
+        else:
+            return 0,0,0,0
     def handle_collision(self,other, group):
         print('jin punched by kazuya')
 
@@ -120,13 +158,28 @@ class KICK1:
 
     def draw(self):
         global a, b
-        self.image.clip_draw((self.kick_1) * 142 - 30, 1000, 120, 140, self.x, self.y)
+        global i
+        if game_state.k_hit == True:
+            i -= 1
+            self.image.clip_draw(690, 2140, 120, 140, self.x, self.y)
+            print(i)
+            if i == 0:
+                i = 100
+                game_state.k_hit = False
+        else:
+            self.image.clip_draw((self.kick_1) * 142 - 30, 1000, 120, 140, self.x, self.y)
+            draw_rectangle(self.x + 10, self.y + 5, self.x - 25, self.y + 35)
+
         a = self.x
         b = self.y
-        draw_rectangle(self.x + 10, self.y + 5, self.x - 25, self.y + 35)
+
 
     def get_bb(self):
-        return  a +10, b + 5 , a -25, b + 35
+        global i
+        if i == 100:
+            return  a +10, b + 5 , a -25, b + 35
+        else:
+            return 0,0,0,0
 
     def handle_collision(self, other, group):
         print('kazuya kickeed by jin')
@@ -143,6 +196,7 @@ next_state = {
 class Kazuya:
 
     def __init__(self):
+
         self.x, self.y = 600, 200
         self.frame = 0
         self.dir, self.face_dir = 0, 1
@@ -184,3 +238,6 @@ class Kazuya:
         self.bgm = load_music('jin_punch_sound.mp3')
         self.bgm.set_volume(15)
         self.bgm.play()
+        self.image.clip_draw(690, 2140, 120, 140, self.x, self.y)
+
+
