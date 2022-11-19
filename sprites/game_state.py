@@ -37,7 +37,7 @@ jinPunch = None
 kazuya_Punch = None
 jinKick = None
 kazuyaKick = None
-
+k_hit = False
 
 
 def handle_events():
@@ -85,9 +85,11 @@ def enter():
     start_ticks = pygame.time.get_ticks()
 def exit():
     game_world.clear()
+    global k_hit
+    k_hit = False
 
 def update():
-    global sec,gameoverTF,elapsed_time,total_time
+    global sec,gameoverTF,elapsed_time,total_time,k_hit
 
     for game_object in game_world.all_objects():
         game_object.update()
@@ -97,6 +99,9 @@ def update():
             print('Collision by', group)
             a.handle_collision(b, group)
             b.handle_collision(a, group)
+            if b == kazuya:
+                k_hit = True
+
 
     elapsed_time = (pygame.time.get_ticks() - start_ticks) / 1000
             # display_time(total_time - int(elapsed_time))
