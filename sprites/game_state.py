@@ -112,6 +112,7 @@ def update():
     if total_time - int(elapsed_time) <= 0:
         game_world.add_object(gameover, 1)
 
+    import rightlifebar
     import leftlifebar
     if leftlifebar.a >= 164:
         global i
@@ -122,8 +123,8 @@ def update():
             game_world.remove_object(gameover)
             game_framework.change_state(title_state)
             leftlifebar.a = 0
+            rightlifebar.a = 0
 
-    import rightlifebar
     if rightlifebar.a >= 164:
         global k
         game_world.add_object(gameover , 1)
@@ -133,6 +134,7 @@ def update():
             game_world.remove_object(gameover)
             game_framework.change_state(title_state)
             rightlifebar.a = 0
+            leftlifebar.a = 0
 
     if total_time - int(elapsed_time) <= -3:
         game_framework.change_state(title_state)
