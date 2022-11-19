@@ -31,6 +31,7 @@ class IDLE:
     @staticmethod
     def do(self):
         self.frame = (self.frame + 1) % 4
+        self.fra = (self.fra+1) % 2
 
     @staticmethod
     def draw(self):
@@ -41,6 +42,11 @@ class IDLE:
             if i == 0:
                 i=100
                 game_state.j_hit = False
+        elif leftlifebar.a >= 164:
+            if game_state.i>500:
+                self.image.clip_draw(980, 2190, 120, 140, self.x, self.y, 120, 150)
+            if game_state.i<500 and game_state.i>0:
+                self.image.clip_draw(1120, 2190, 120, 140, self.x, self.y, 120, 150)
         else:
             self.image.clip_draw(self.frame * 160, 2580, 100, 140, self.x, self.y)
 
@@ -186,6 +192,7 @@ class Jin:
     def __init__(self):
         self.x, self.y = 200, 200
         self.frame = 0
+        self.fra=0
         self.dir, self.face_dir = 0, 1
         self.image = load_image('Jin.png')
 
