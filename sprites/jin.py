@@ -142,7 +142,7 @@ class KICK:
         self.y = 200
 
     def enter(self, event):
-        self.kick_1 = 3
+        self.kick_1 = 1
         print('ENTER KICK')
 
     def exit(self, event):
@@ -151,7 +151,7 @@ class KICK:
         print('EXIT KICK')
 
     def do(self):
-        self.kick_1 = (self.kick_1 + 1) % 4
+        self.kick_1 = (self.kick_1 + 1) % 3
         delay(0.1)
 
     def draw(self):
