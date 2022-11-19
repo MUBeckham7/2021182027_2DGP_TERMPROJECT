@@ -41,8 +41,15 @@ class IDLE:
             if i == 0:
                 i=100
                 game_state.k_hit = False
+        elif rightlifebar.a >= 164:
+            if game_state.k>500:
+                self.image.clip_draw(1110, 1740, 160, 140, self.x + 20, self.y)
+            if game_state.k<500 and game_state.k>0:
+                self.image.clip_draw(947, 1760, 180, 140, self.x + 30, self.y)
         else:
             self.image.clip_draw((self.frame * 142) + 830, 2520, 120, 140, self.x, self.y)
+
+
 
 
 class RUN:
