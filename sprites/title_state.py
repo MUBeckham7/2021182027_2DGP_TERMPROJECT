@@ -1,6 +1,7 @@
 from pico2d import *
 import game_framework
 import game_state
+import CharacterSelect_state
 from title import Title
 title = None
 
@@ -12,7 +13,7 @@ def handle_events():
         elif (event.type, event.key) == (SDL_KEYDOWN, SDLK_ESCAPE):
             game_framework.quit()
         elif (event.type, event.key) == (SDL_KEYDOWN,SDLK_RETURN):
-            game_framework.change_state(game_state)
+            game_framework.change_state(CharacterSelect_state)
 
 def enter():
     global title
