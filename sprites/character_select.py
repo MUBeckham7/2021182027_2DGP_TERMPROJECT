@@ -7,5 +7,8 @@ class Character_select:
         #self.bgm.set_volume(30)
         #self.bgm.repeat_play()
 
+    def update(self):
+        pass
+
     def draw(self):
-        self.image.draw(400,300)
+        self.image.clip_composite_draw(0, 0, 507, 247, 0, '',400,300,800,600)

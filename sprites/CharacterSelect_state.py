@@ -1,6 +1,7 @@
 from pico2d import *
 import game_framework
 import game_state
+import game_world
 from character_select import Character_select
 character_select = None
 
@@ -18,16 +19,20 @@ def handle_events():
 def enter():
     global character_select
     character_select = Character_select()
+    game_world.add_object(character_select, 0)
 
 def exit():
-    global character_select
-    del character_select
+    game_world.clear()
 
 def update():
-    pass
+    for game_object in game_world.all_objects():
+        game_object.update()
+
+
 
 def draw_world():
-    character_select.draw()
+    for game_object in game_world.all_objects():
+        game_object.draw()
 
 def draw():
     clear_canvas()
