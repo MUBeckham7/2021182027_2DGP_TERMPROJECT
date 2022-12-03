@@ -57,6 +57,7 @@ class IDLE:
             self.image.clip_composite_draw((self.frame * 76), 1657, 75, 100,0,'h', self.x, self.y,70,110)
 
 
+
 class RUN:
     def enter(self, event):
         print('ENTER RUN')
@@ -85,17 +86,17 @@ class RUN:
 
     def draw(self):
         global i,k
-        if game_state.j_hit == True:
+        if game_state.p_hit == True:
             i -= 1
-            self.image.clip_composite_draw(785, 2190, 120, 140, 0, '', self.x, self.y, 120, 150)
+            self.image.clip_composite_draw(217, 675, 90, 140,0,'', self.x+5, self.y,80,170)
             if i == 0:
                 i = 100
-                game_state.j_hit = False
+                game_state.p_hit = False
         else:
             if self.dir == -0.3:
                 self.image.clip_composite_draw((self.frame * 76), 1657, 75, 100, 0, 'h', self.x, self.y, 70, 110)
             if self.dir == 0.1:
-                self.image.clip_draw(640, 80, 130, 100, self.x, self.y)
+                self.image.clip_composite_draw(0, 320, 80, 100, 0, 'h', self.x + 10, self.y - 5, 80, 100)
 
 a = 0
 b = 0
@@ -103,12 +104,12 @@ b = 0
 
 class PUNCH:
     def __init__(self):
-        self.x = 200
+        self.x = 600
         self.y = 200
 
 
     def enter(self, event):
-        self.punch_1 = 3
+        self.punch_1 = 1
         print('ENTER PUNCH')
 
     def exit(self, event):
@@ -117,22 +118,23 @@ class PUNCH:
         print('EXIT PUNCH')
 
     def do(self):
-        self.punch_1 = (self.punch_1 + 1) % 4
+        self.punch_1 = (self.punch_1 + 1) % 3
         delay(0.1)
 
     def draw(self):
         global a,b
         global i
-        if game_state.j_hit == True:
+        if game_state.p_hit == True:
             i -= 1
-            self.image.clip_composite_draw(785, 2190, 120, 140, 0, '', self.x, self.y, 120, 150)
+            self.image.clip_composite_draw(217, 675, 90, 140,0,'', self.x+5, self.y,80,170)
             if i == 0:
                 i = 100
-                game_state.j_hit = False
+                game_state.p_hit = False
         else:
-            self.image.clip_draw((self.punch_1) * 170, 1220, 115, 140, self.x, self.y)
-            draw_rectangle(self.x + 30, self.y + 10, self.x + 60, self.y + 25)
-        a = self.x + 30
+            self.image.clip_composite_draw((self.punch_1)*160, 1280, 80, 90, 0, 'h', self.x-10, self.y, 80, 100)
+            #self.image.clip_draw((self.punch_1) * 170, 1220, 115, 140, self.x, self.y)
+            draw_rectangle(self.x - 50, self.y + 10, self.x - 20, self.y + 25)
+        a = self.x - 50
         b = self.y + 10
 
 
@@ -149,11 +151,11 @@ class PUNCH:
 
 class KICK:
     def __init__(self):
-        self.x = 200
+        self.x = 600
         self.y = 200
 
     def enter(self, event):
-        self.kick_1 = 1
+        self.kick_1 = 0
         print('ENTER KICK')
 
     def exit(self, event):
@@ -175,7 +177,7 @@ class KICK:
                 i = 100
                 game_state.j_hit = False
         else:
-            self.image.clip_draw((self.kick_1 * 170) + 780, 1220, 130, 160, self.x, self.y)
+            self.image.clip_composite_draw((self.kick_1)*80, 1180, 80, 90, 0, 'h', self.x-10, self.y, 80, 100)
             draw_rectangle(self.x+40,self.y,self.x + 65,self.y + 30)
         a = self.x + 40
         b = self.y
