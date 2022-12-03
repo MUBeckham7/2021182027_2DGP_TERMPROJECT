@@ -9,6 +9,7 @@ import CharacterSelect_state
 from background import BackGround
 from jin import Jin
 from kazuya import Kazuya
+from paulpheonix import PaulPheonix
 from gameover import GameOver
 from lifebar import LifeBar
 from leftlifebar import LeftLifeBar
@@ -23,6 +24,7 @@ from win import Win
 background = None
 jin = None
 kazuya = None
+paulpheonix = None
 gameover=None
 gameoverTF = False
 start_ticks =None
@@ -41,6 +43,7 @@ jinKick = None
 kazuyaKick = None
 k_hit = False
 j_hit = False
+p_hit = False
 win = None
 jin_win_count = 0
 kazuya_win_count = 0
@@ -56,22 +59,36 @@ def handle_events():
         else:
             if CharacterSelect_state.x1 == 0:
                 jin.handle_event(event)
+                print(CharacterSelect_state.x1,'jin')
             if CharacterSelect_state.x2 == 0:
                 kazuya.handle_event(event)
+                print(CharacterSelect_state.x2,'kazuya')
+            if CharacterSelect_state.x2 == -100:
+                paulpheonix.handle_event(event)
+                print(CharacterSelect_state.x2,'pheonix')
 
 
 def enter():
     global background,lifebar,leftlifebar,rightlifebar
-    global start_ticks,gameover,gameoverTF,timefont,jinPunch,kazuya_Punch
-    global jinKick,kazuyaKick,win
+    global start_ticks,gameover,gameoverTF,timefont
+    global win
     if CharacterSelect_state.x1 == 0:
-        global jin
+        global jin,jinPunch,jinKick
         jin=Jin()
+        jinPunch = PUNCH()
+        jinKick = KICK()
         game_world.add_object(jin, 1)
+
     if CharacterSelect_state.x2 == 0:
-        global kazuya
+        global kazuya, kazuyaKick,kazuya_Punch
         kazuya=Kazuya()
+        kazuya_Punch = PUNCH1()
+        kazuyaKick = KICK1()
         game_world.add_object(kazuya, 1)
+    if CharacterSelect_state.x2 == -100:
+        global paulpheonix
+        paulpheonix = PaulPheonix()
+        game_world.add_object(paulpheonix,1)
 
 
     background = BackGround()
@@ -80,10 +97,8 @@ def enter():
     leftlifebar = LeftLifeBar()
     rightlifebar= RightLifeBar()
     timefont = Timefont()
-    jinPunch = PUNCH()
-    kazuya_Punch = PUNCH1()
-    jinKick = KICK()
-    kazuyaKick = KICK1()
+
+
     win = Win()
     game_world.add_object(background, 0)
 
@@ -105,11 +120,11 @@ def enter():
     start_ticks = pygame.time.get_ticks()
 def exit():
     game_world.clear()
-    global k_hit,j_hit
-    k_hit ,j_hit = False,False
+    global k_hit,j_hit,p_hit
+    k_hit ,j_hit ,p_hit= False,False,False
 
 def update():
-    global sec,gameoverTF,elapsed_time,total_time,k_hit,j_hit
+    global sec,gameoverTF,elapsed_time,total_time,k_hit,j_hit,p_hit
 
     for game_object in game_world.all_objects():
         game_object.update()
@@ -123,6 +138,8 @@ def update():
                 k_hit = True
             if b == jin:
                 j_hit = True
+            if b== paulpheonix:
+                p_hit = True
 
 
     elapsed_time = (pygame.time.get_ticks() - start_ticks) / 1000
