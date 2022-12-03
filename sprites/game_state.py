@@ -4,6 +4,7 @@ import game_world
 import pygame
 import game_framework
 import title_state
+import CharacterSelect_state
 
 from background import BackGround
 from jin import Jin
@@ -53,16 +54,26 @@ def handle_events():
         elif (event.type, event.key) == (SDL_KEYDOWN, SDLK_ESCAPE):
             game_framework.quit()
         else:
-            jin.handle_event(event)
-            kazuya.handle_event(event)
+            if CharacterSelect_state.x1 == 0:
+                jin.handle_event(event)
+            if CharacterSelect_state.x2 == 0:
+                kazuya.handle_event(event)
 
 
 def enter():
-    global background,jin,kazuya,lifebar,leftlifebar,rightlifebar
+    global background,lifebar,leftlifebar,rightlifebar
     global start_ticks,gameover,gameoverTF,timefont,jinPunch,kazuya_Punch
     global jinKick,kazuyaKick,win
-    jin=Jin()
-    kazuya=Kazuya()
+    if CharacterSelect_state.x1 == 0:
+        global jin
+        jin=Jin()
+        game_world.add_object(jin, 1)
+    if CharacterSelect_state.x2 == 0:
+        global kazuya
+        kazuya=Kazuya()
+        game_world.add_object(kazuya, 1)
+
+
     background = BackGround()
     gameover = GameOver()
     lifebar = LifeBar()
@@ -75,14 +86,16 @@ def enter():
     kazuyaKick = KICK1()
     win = Win()
     game_world.add_object(background, 0)
-    game_world.add_object(jin,1)
-    game_world.add_object(kazuya,1)
+
+
     game_world.add_object(lifebar,1)
     game_world.add_object(leftlifebar,1)
     game_world.add_object(rightlifebar,1)
     game_world.add_object(timefont,1)
     game_world.add_object(win,1)
     #game_world.add_collision_group(jin,kazuya,'jin:kazuya')
+
+
     game_world.add_collision_group(jinPunch,kazuya,'jinpunch:kazuya')
     game_world.add_collision_group(kazuya_Punch,jin,'kazuya_Punch:jin')
     game_world.add_collision_group(jinKick,kazuya,'jinKick:kazuya')
