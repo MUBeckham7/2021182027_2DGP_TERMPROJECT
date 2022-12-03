@@ -48,11 +48,11 @@ class IDLE:
             if i == 0:
                 i=100
                 game_state.p_hit = False
-        elif leftlifebar.a >= 164:
+        elif rightlifebar.a >= 164:
             if game_state.i>500:
-                self.image.clip_composite_draw(0, 220, 90, 110, 0, 'h', self.x + 10, self.y, 80, 110)
+                self.image.clip_composite_draw(0, 220, 90, 110, 0, 'h', self.x + 10, self.y-20, 80, 110)
             if game_state.i<500 and game_state.i>0:
-                self.image.clip_composite_draw(0, 170, 150, 60, 0, 'h', self.x + 20, self.y - 30, 150, 70)
+                self.image.clip_composite_draw(0, 170, 150, 60, 0, 'h', self.x + 20, self.y - 40, 150, 70)
         else:
             self.image.clip_composite_draw((self.frame * 76), 1657, 75, 100,0,'h', self.x, self.y,70,110)
 
@@ -102,7 +102,7 @@ a = 0
 b = 0
 
 
-class PUNCH:
+class PUNCH2:
     def __init__(self):
         self.x = 600
         self.y = 200
@@ -149,7 +149,7 @@ class PUNCH:
         print('kazuya punched by pheonix')
 
 
-class KICK:
+class KICK2:
     def __init__(self):
         self.x = 600
         self.y = 200
@@ -170,22 +170,22 @@ class KICK:
     def draw(self):
         global a,b
         global i
-        if game_state.j_hit == True:
+        if game_state.p_hit == True:
             i -= 1
-            self.image.clip_composite_draw(785, 2190, 120, 140, 0, '', self.x, self.y, 120, 150)
+            self.image.clip_composite_draw(217, 675, 90, 140,0,'', self.x+5, self.y,80,170)
             if i == 0:
                 i = 100
-                game_state.j_hit = False
+                game_state.p_hit = False
         else:
-            self.image.clip_composite_draw((self.kick_1)*80, 1180, 80, 90, 0, 'h', self.x-10, self.y, 80, 100)
-            draw_rectangle(self.x+40,self.y,self.x + 65,self.y + 30)
-        a = self.x + 40
-        b = self.y
+            self.image.clip_composite_draw((self.kick_1)*80, 1180, 78, 90, 0, 'h', self.x-5, self.y-8, 80, 100)
+            draw_rectangle(self.x-45,self.y+10,self.x - 20,self.y + 30)
+        a = self.x - 45
+        b = self.y + 10
 
     def get_bb(self):
         global i
         if i == 100:
-            return a ,b,a+25,b+30
+            return a ,b,a+25,b+20
         else:
             return 0,0,0,0
 
@@ -193,10 +193,10 @@ class KICK:
         print('kazuya kicked by pheonix')
 
 next_state = {
-    IDLE: {RU: RUN, LU: RUN, RD: RUN, LD: RUN, PD: PUNCH, PU: PUNCH, KD: KICK, KU: KICK},
-    RUN: {RU: IDLE, LU: IDLE, RD: IDLE, LD: IDLE, PD: PUNCH, PU: PUNCH, KD: KICK, KU: KICK},
-    PUNCH: {RU: PUNCH, LU: PUNCH, RD: PUNCH, LD: PUNCH, PU: IDLE, PD: IDLE, KU: PUNCH, KD: PUNCH},
-    KICK: {RU: KICK, LU: KICK, RD: KICK, LD: KICK, PD: KICK, PU: KICK, KU: IDLE, KD: IDLE}
+    IDLE: {RU: RUN, LU: RUN, RD: RUN, LD: RUN, PD: PUNCH2, PU: PUNCH2, KD: KICK2, KU: KICK2},
+    RUN: {RU: IDLE, LU: IDLE, RD: IDLE, LD: IDLE, PD: PUNCH2, PU: PUNCH2, KD: KICK2, KU: KICK2},
+    PUNCH2: {RU: PUNCH2, LU: PUNCH2, RD: PUNCH2, LD: PUNCH2, PU: IDLE, PD: IDLE, KU: PUNCH2, KD: PUNCH2},
+    KICK2: {RU: KICK2, LU: KICK2, RD: KICK2, LD: KICK2, PD: KICK2, PU: KICK2, KU: IDLE, KD: IDLE}
 }
 
 

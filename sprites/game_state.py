@@ -17,8 +17,10 @@ from rightlifebar import RightLifeBar
 from timefont import Timefont
 from jin import PUNCH
 from kazuya import PUNCH1
+from paulpheonix import PUNCH2
 from jin import KICK
 from kazuya import KICK1
+from paulpheonix import KICK2
 from win import Win
 
 background = None
@@ -39,8 +41,10 @@ timefont = None
 elapsed_time = 0
 jinPunch = None
 kazuya_Punch = None
+paulPunch = None
 jinKick = None
 kazuyaKick = None
+paulKick = None
 k_hit = False
 j_hit = False
 p_hit = False
@@ -86,8 +90,10 @@ def enter():
         kazuyaKick = KICK1()
         game_world.add_object(kazuya, 1)
     if CharacterSelect_state.x2 == -100:
-        global paulpheonix
+        global paulpheonix,paulPunch,paulKick
         paulpheonix = PaulPheonix()
+        paulPunch = PUNCH2()
+        paulKick = KICK2()
         game_world.add_object(paulpheonix,1)
 
 
@@ -112,9 +118,15 @@ def enter():
 
 
     game_world.add_collision_group(jinPunch,kazuya,'jinpunch:kazuya')
-    game_world.add_collision_group(kazuya_Punch,jin,'kazuya_Punch:jin')
+    game_world.add_collision_group(jinPunch,paulpheonix,'jinpunch:paulpheonix')
     game_world.add_collision_group(jinKick,kazuya,'jinKick:kazuya')
+    game_world.add_collision_group(jinKick,paulpheonix,'jinKick:paulpheonix')
+
+    game_world.add_collision_group(kazuya_Punch,jin,'kazuya_Punch:jin')
     game_world.add_collision_group(kazuyaKick,jin,'kazuyaKick:jin')
+
+    game_world.add_collision_group(paulPunch,jin,'paulpunch:jin')
+    game_world.add_collision_group(paulKick,jin,'paulkick:jin')
 
 
     start_ticks = pygame.time.get_ticks()
