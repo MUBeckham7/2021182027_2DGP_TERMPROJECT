@@ -6,10 +6,12 @@ from character_select import Character_select
 from jin_portrait import JIN_Portrait
 from kazuya_portrait import Kazuya_Portrait
 from haeiachi_portrait import Haeiachi_Portrait
+from paulpheonix_portrait import PaulPheonix_Portrait
 character_select = None
 jin_portrait = None
 kazuya_portrait = None
 haeiachi_portrait = None
+paulpheonix_portrait = None
 x1,x2=0,0
 change_count=0
 
@@ -34,15 +36,17 @@ def handle_events():
 
 
 def enter():
-    global character_select,jin_portrait,kazuya_portrait,haeiachi_portrait
+    global character_select,jin_portrait,kazuya_portrait,haeiachi_portrait,paulpheonix_portrait
     character_select = Character_select()
     jin_portrait = JIN_Portrait()
     kazuya_portrait = Kazuya_Portrait()
     haeiachi_portrait = Haeiachi_Portrait()
+    paulpheonix_portrait = PaulPheonix_Portrait()
     game_world.add_object(character_select, 0)
     game_world.add_object(jin_portrait,1)
     game_world.add_object(kazuya_portrait,1)
     game_world.add_object(haeiachi_portrait,1)
+    game_world.add_object(paulpheonix_portrait,1)
 
 def exit():
     game_world.clear()
