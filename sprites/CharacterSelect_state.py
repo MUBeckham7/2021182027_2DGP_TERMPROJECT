@@ -4,8 +4,10 @@ import game_state
 import game_world
 from character_select import Character_select
 from jin_portrait import JIN_Portrait
+from kazuya_portrait import Kazuya_Portrait
 character_select = None
 jin_portrait = None
+kazuya_portrait = None
 
 
 def handle_events():
@@ -19,11 +21,13 @@ def handle_events():
             game_framework.change_state(game_state)
 
 def enter():
-    global character_select,jin_portrait
+    global character_select,jin_portrait,kazuya_portrait
     character_select = Character_select()
     jin_portrait = JIN_Portrait()
+    kazuya_portrait = Kazuya_Portrait()
     game_world.add_object(character_select, 0)
     game_world.add_object(jin_portrait,1)
+    game_world.add_object(kazuya_portrait,1)
 
 def exit():
     game_world.clear()
@@ -41,6 +45,7 @@ def draw_world():
 def draw():
     clear_canvas()
     draw_world()
+    draw_rectangle(150,130,250,240)
     update_canvas()
 
 def pause():
