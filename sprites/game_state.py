@@ -76,20 +76,20 @@ def enter():
     global background,lifebar,leftlifebar,rightlifebar
     global start_ticks,gameover,gameoverTF,timefont
     global win
-    if CharacterSelect_state.x1 == 0:
+    if CharacterSelect_state.x1 == 0:           #######진
         global jin,jinPunch,jinKick
         jin=Jin()
         jinPunch = PUNCH()
         jinKick = KICK()
         game_world.add_object(jin, 1)
 
-    if CharacterSelect_state.x2 == 0:
+    if CharacterSelect_state.x2 == 0:           #######카주야
         global kazuya, kazuyaKick,kazuya_Punch
         kazuya=Kazuya()
         kazuya_Punch = PUNCH1()
         kazuyaKick = KICK1()
         game_world.add_object(kazuya, 1)
-    if CharacterSelect_state.x2 == -100:
+    if CharacterSelect_state.x2 == -100:        ########폴 피닉스
         global paulpheonix,paulPunch,paulKick
         paulpheonix = PaulPheonix()
         paulPunch = PUNCH2()
@@ -116,17 +116,24 @@ def enter():
     game_world.add_object(win,1)
     #game_world.add_collision_group(jin,kazuya,'jin:kazuya')
 
+    # x1 == 0 진 , x2 == 0 카주야 , x2 == -100
 
-    game_world.add_collision_group(jinPunch,kazuya,'jinpunch:kazuya')
-    game_world.add_collision_group(jinPunch,paulpheonix,'jinpunch:paulpheonix')
-    game_world.add_collision_group(jinKick,kazuya,'jinKick:kazuya')
-    game_world.add_collision_group(jinKick,paulpheonix,'jinKick:paulpheonix')
+    if CharacterSelect_state.x1 == 0 and CharacterSelect_state.x2 == 0:
+        game_world.add_collision_group(jinPunch,kazuya,'jinpunch:kazuya')
+        game_world.add_collision_group(jinKick,kazuya,'jinKick:kazuya')
+        game_world.add_collision_group(kazuya_Punch, jin, 'kazuya_Punch:jin')
+        game_world.add_collision_group(kazuyaKick, jin, 'kazuyaKick:jin')
 
-    game_world.add_collision_group(kazuya_Punch,jin,'kazuya_Punch:jin')
-    game_world.add_collision_group(kazuyaKick,jin,'kazuyaKick:jin')
+    if CharacterSelect_state.x1 == 0 and CharacterSelect_state.x2 == -100:
+        game_world.add_collision_group(jinKick, paulpheonix, 'jinKick:paulpheonix')
+        game_world.add_collision_group(jinPunch, paulpheonix, 'jinpunch:paulpheonix')
+        game_world.add_collision_group(paulPunch,jin,'paulpunch:jin')
+        game_world.add_collision_group(paulKick,jin,'paulkick:jin')
 
-    game_world.add_collision_group(paulPunch,jin,'paulpunch:jin')
-    game_world.add_collision_group(paulKick,jin,'paulkick:jin')
+
+
+
+
 
 
     start_ticks = pygame.time.get_ticks()
@@ -134,6 +141,7 @@ def exit():
     game_world.clear()
     global k_hit,j_hit,p_hit
     k_hit ,j_hit ,p_hit= False,False,False
+    CharacterSelect_state.x1 ,CharacterSelect_state.x2 = 0, 0
 
 def update():
     global sec,gameoverTF,elapsed_time,total_time,k_hit,j_hit,p_hit
@@ -153,7 +161,6 @@ def update():
             if b== paulpheonix:
                 p_hit = True
 
-
     elapsed_time = (pygame.time.get_ticks() - start_ticks) / 1000
             # display_time(total_time - int(elapsed_time))
 
@@ -169,10 +176,10 @@ def update():
         if i == 0:
             i=700
             game_world.remove_object(gameover)
-            game_framework.change_state(title_state)
             leftlifebar.a = 0
             rightlifebar.a = 0
             kazuya_win_count +=1
+            game_framework.change_state(title_state)
 
     if rightlifebar.a >= 164:
         global k,jin_win_count
@@ -181,14 +188,16 @@ def update():
         if k == 0:
             k=700
             game_world.remove_object(gameover)
-            game_framework.change_state(title_state)
             rightlifebar.a = 0
             leftlifebar.a = 0
             jin_win_count += 1
+            game_framework.change_state(title_state)
+
 
     if total_time - int(elapsed_time) <= -3:
-        game_framework.change_state(title_state)
         sec += 1
+        game_framework.change_state(title_state)
+
 
     if sec == 50:
         sec =  0

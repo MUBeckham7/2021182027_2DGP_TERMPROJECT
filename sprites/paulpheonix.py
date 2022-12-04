@@ -241,7 +241,7 @@ class PaulPheonix:
         return self.x - 20, self.y - 50, self.x + 33, self.y + 40
 
     def handle_collision(self, other, group):
-        leftlifebar.a += 5
+        rightlifebar.a += 3
         self.bgm = load_music('kazuya_punch_sound.mp3')
         self.bgm.set_volume(15)
         self.bgm.play()

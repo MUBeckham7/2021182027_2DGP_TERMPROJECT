@@ -12,3 +12,4 @@ class RightLifeBar:
     def draw(self):
         global a
         self.image.clip_composite_draw(0,0,460,50,0,'',613-(0.9*a),515,325-(2*a),38)
+        print('우 라이프 바:', a)
