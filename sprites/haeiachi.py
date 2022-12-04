@@ -17,6 +17,7 @@ key_event_table = {
     (SDL_KEYUP, SDLK_k): KD,
 }
 
+defence = False
 i=100
 class IDLE:
     @staticmethod
@@ -54,17 +55,21 @@ class IDLE:
 
 class RUN:
     def enter(self, event):
+        global defence
         print('ENTER RUN')
         if event == RD:
             self.dir += 0.3
         elif event == LD:
             self.dir -= 0.1
+            defence = True
         elif event == RU:
             self.dir -= 0.3
         elif event == LU:
             self.dir += 0.1
 
     def exit(self, event):
+        global defence
+        defence = False
         print('EXIT RUN')
         self.face_dir = self.dir
 
@@ -76,20 +81,22 @@ class RUN:
     def draw(self):
         global i
         if game_state.h_hit == True:
-            print('이게 된다.')
-            i -= 1
-            self.image.clip_draw(72, 260, 80, 100, self.x+5, self.y)
-            if i == 0:
-                i = 100
-                game_state.h_hit = False
+            if defence == True:
+                self.image.clip_composite_draw(-10, 0, 65, 90, 0, '', self.x, self.y, 70, 100)
+                game_state.h_hit=False
+            else:
+                i -= 1
+                self.image.clip_draw(72, 260, 80, 100, self.x+5, self.y)
+                if i == 0:
+                    i = 100
+                    game_state.h_hit = False
         else:
             print(self.dir)
             if self.dir == 0.3:
                 self.image.clip_draw(self.frame * 72, 1200, 64, 110, self.x + 5, self.y - 15)
-                print('앞으로')
             if self.dir == -0.1:
                 self.image.clip_composite_draw(-10, 0, 65, 90, 0, '', self.x, self.y, 70, 100)
-                print('뒤로')
+
 
 
 a = 0
@@ -126,7 +133,7 @@ class PUNCH3:
                 game_state.h_hit = False
         else:
             self.image.clip_draw((self.punch_1 * 80 )+259, 1110, 80, 97, self.x+20, self.y)
-            draw_rectangle(self.x + 30, self.y+3, self.x + 60, self.y + 18)
+            #draw_rectangle(self.x + 30, self.y+3, self.x + 60, self.y + 18)
         a = self.x + 30
         b = self.y + 3
 
@@ -171,7 +178,7 @@ class KICK3:
                 game_state.h_hit = False
         else:
             self.image.clip_draw(self.kick_1 * 100,730 , 137, 90, self.x+10, self.y-3)
-            draw_rectangle(self.x+40,self.y+10,self.x + 75,self.y + 30)
+            #draw_rectangle(self.x+40,self.y+10,self.x + 75,self.y + 30)
         a = self.x + 35
         b = self.y + 10
 
@@ -220,7 +227,7 @@ class Haeiachi:
 
     def draw(self):
         self.cur_state.draw(self)
-        draw_rectangle(*self.get_bb())
+        #draw_rectangle(*self.get_bb())
 
     def add_event(self, event):
         self.event_que.insert(0, event)
@@ -234,7 +241,8 @@ class Haeiachi:
         return self.x - 20, self.y - 55, self.x + 40, self.y + 40
 
     def handle_collision(self, other, group):
-        leftlifebar.a += 5
+        if defence == False:
+            leftlifebar.a += 5
         self.bgm = load_music('kazuya_punch_sound.mp3')
         self.bgm.set_volume(15)
         self.bgm.play()

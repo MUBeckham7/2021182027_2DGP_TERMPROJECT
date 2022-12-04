@@ -17,6 +17,7 @@ key_event_table = {
     (SDL_KEYUP, SDLK_KP_5): KD,
 }
 
+defence = False
 i=100
 k=0
 class IDLE:
@@ -60,19 +61,22 @@ class IDLE:
 
 class RUN:
     def enter(self, event):
+        global defence
         print('ENTER RUN')
         if event == LD:
             self.dir -= 0.3
         elif event == RD:
             self.dir += 0.1
+            defence = True
         elif event == LU:
             self.dir += 0.3
         elif event == RU:
             self.dir -= 0.1
 
     def exit(self, event):
-        global k
+        global k,defence
         k=0
+        defence = False
         print('EXIT RUN')
         self.face_dir = self.dir
 
@@ -87,11 +91,15 @@ class RUN:
     def draw(self):
         global i,k
         if game_state.p_hit == True:
-            i -= 1
-            self.image.clip_composite_draw(217, 675, 90, 140,0,'', self.x+5, self.y,80,170)
-            if i == 0:
-                i = 100
+            if defence == True:
+                self.image.clip_composite_draw(0, 320, 80, 100, 0, 'h', self.x + 10, self.y - 5, 80, 100)
                 game_state.p_hit = False
+            else:
+                i -= 1
+                self.image.clip_composite_draw(217, 675, 90, 140,0,'', self.x+5, self.y,80,170)
+                if i == 0:
+                    i = 100
+                    game_state.p_hit = False
         else:
             if self.dir == -0.3:
                 self.image.clip_composite_draw((self.frame * 76), 1657, 75, 100, 0, 'h', self.x, self.y, 70, 110)
@@ -133,7 +141,7 @@ class PUNCH2:
         else:
             self.image.clip_composite_draw((self.punch_1)*160, 1280, 80, 90, 0, 'h', self.x-10, self.y, 80, 100)
             #self.image.clip_draw((self.punch_1) * 170, 1220, 115, 140, self.x, self.y)
-            draw_rectangle(self.x - 50, self.y + 10, self.x - 20, self.y + 25)
+            #draw_rectangle(self.x - 50, self.y + 10, self.x - 20, self.y + 25)
         a = self.x - 50
         b = self.y + 10
 
@@ -178,7 +186,7 @@ class KICK2:
                 game_state.p_hit = False
         else:
             self.image.clip_composite_draw((self.kick_1)*80, 1180, 78, 90, 0, 'h', self.x-5, self.y-8, 80, 100)
-            draw_rectangle(self.x-45,self.y+10,self.x - 20,self.y + 30)
+            #draw_rectangle(self.x-45,self.y+10,self.x - 20,self.y + 30)
         a = self.x - 45
         b = self.y + 10
 
@@ -227,7 +235,7 @@ class PaulPheonix:
 
     def draw(self):
         self.cur_state.draw(self)
-        draw_rectangle(*self.get_bb())
+        #draw_rectangle(*self.get_bb())
 
     def add_event(self, event):
         self.event_que.insert(0, event)
@@ -241,7 +249,8 @@ class PaulPheonix:
         return self.x - 20, self.y - 50, self.x + 33, self.y + 40
 
     def handle_collision(self, other, group):
-        rightlifebar.a += 3
+        if defence == False:
+            rightlifebar.a += 3
         self.bgm = load_music('kazuya_punch_sound.mp3')
         self.bgm.set_volume(15)
         self.bgm.play()

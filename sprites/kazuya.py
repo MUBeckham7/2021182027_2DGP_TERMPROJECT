@@ -16,6 +16,7 @@ key_event_table = {
     (SDL_KEYUP, SDLK_KP_5): KD,
 }
 
+defence = False
 i=100
 class IDLE:
     @staticmethod
@@ -54,9 +55,11 @@ class IDLE:
 
 class RUN:
     def enter(self, event):
+        global defence
         print('ENTER RUN')
         if event == RD:
             self.dir += 0.1
+            defence = True
         elif event == LD:
             self.dir -= 0.3
         elif event == RU:
@@ -65,7 +68,9 @@ class RUN:
             self.dir += 0.3
 
     def exit(self, event):
+        global defence
         print('EXIT RUN')
+        defence = False
         self.face_dir = self.dir
 
     def do(self):
@@ -76,11 +81,15 @@ class RUN:
     def draw(self):
         global i
         if game_state.k_hit == True:
-            i -= 1
-            self.image.clip_draw(690, 2140, 120, 140, self.x, self.y)
-            if i == 0:
-                i=100
+            if defence == True:
+                self.image.clip_draw((self.frame * 142) + 830, 2520, 120, 140, self.x, self.y)
                 game_state.k_hit = False
+            else:
+                i -= 1
+                self.image.clip_draw(690, 2140, 120, 140, self.x, self.y)
+                if i == 0:
+                    i=100
+                    game_state.k_hit = False
         else:
             if self.dir == 0.1:
                 self.image.clip_draw(-20, 250, 120, 140, self.x, self.y)
@@ -121,7 +130,7 @@ class PUNCH1:
                 game_state.k_hit = False
         else:
             self.image.clip_draw((self.punch_1) * 142 + 1120, 1000, 120, 140, self.x, self.y)
-            draw_rectangle(self.x + 10, self.y + 15, self.x - 20, self.y + 30)
+            #draw_rectangle(self.x + 10, self.y + 15, self.x - 20, self.y + 30)
 
         a = self.x
         b = self.y
@@ -167,7 +176,7 @@ class KICK1:
                 game_state.k_hit = False
         else:
             self.image.clip_draw((self.kick_1) * 142 - 30, 1000, 120, 140, self.x, self.y)
-            draw_rectangle(self.x + 10, self.y + 5, self.x - 25, self.y + 35)
+            #draw_rectangle(self.x + 10, self.y + 5, self.x - 25, self.y + 35)
 
         a = self.x
         b = self.y
@@ -219,7 +228,7 @@ class Kazuya:
 
     def draw(self):
         self.cur_state.draw(self)
-        draw_rectangle(*self.get_bb())
+        #draw_rectangle(*self.get_bb())
 
     def add_event(self, event):
         self.event_que.insert(0, event)
@@ -233,7 +242,8 @@ class Kazuya:
         return self.x + 10, self.y - 55, self.x + 60, self.y + 50
 
     def handle_collision(self, other, group):
-        rightlifebar.a += 5
+        if defence == False:
+            rightlifebar.a += 5
         self.bgm = load_music('jin_punch_sound.mp3')
         self.bgm.set_volume(15)
         self.bgm.play()
