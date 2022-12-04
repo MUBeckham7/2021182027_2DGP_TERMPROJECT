@@ -22,7 +22,7 @@ class IDLE:
     @staticmethod
     def enter(self, event):
         print('ENTER IDLE')
-        self.dir = 1
+        self.dir = 0
 
     @staticmethod
     def exit(self, event):
@@ -56,13 +56,13 @@ class RUN:
     def enter(self, event):
         print('ENTER RUN')
         if event == RD:
-            self.dir += 0.2
+            self.dir += 0.3
         elif event == LD:
-            self.dir -= 0.15
+            self.dir -= 0.1
         elif event == RU:
-            self.dir -= 0.2
+            self.dir -= 0.3
         elif event == LU:
-            self.dir += 0.15
+            self.dir += 0.1
 
     def exit(self, event):
         print('EXIT RUN')
@@ -75,7 +75,6 @@ class RUN:
 
     def draw(self):
         global i
-
         if game_state.h_hit == True:
             print('이게 된다.')
             i -= 1
@@ -84,11 +83,11 @@ class RUN:
                 i = 100
                 game_state.h_hit = False
         else:
-            print('밥은 먹고 다니냐')
-            if self.dir == 0.2:
+            print(self.dir)
+            if self.dir == 0.3:
                 self.image.clip_draw(self.frame * 72, 1200, 64, 110, self.x + 5, self.y - 15)
                 print('앞으로')
-            if self.dir == -0.15:
+            if self.dir == -0.1:
                 self.image.clip_composite_draw(-10, 0, 65, 90, 0, '', self.x, self.y, 70, 100)
                 print('뒤로')
 
@@ -104,7 +103,7 @@ class PUNCH3:
 
 
     def enter(self, event):
-        self.punch_1 = 3
+        self.punch_1 = 1
         print('ENTER PUNCH')
 
     def exit(self, event):
@@ -121,16 +120,15 @@ class PUNCH3:
         global i
         if game_state.h_hit == True:
             i -= 1
-            self.image.clip_composite_draw(785, 2190, 120, 140, 0, '', self.x, self.y, 120, 150)
+            self.image.clip_draw(72, 260, 80, 100, self.x+5, self.y)
             if i == 0:
                 i = 100
                 game_state.h_hit = False
         else:
-            self.image.clip_draw(
-                (self.punch_1) * 170, 1220, 115, 140, self.x, self.y)
-            draw_rectangle(self.x + 30, self.y + 10, self.x + 60, self.y + 25)
+            self.image.clip_draw((self.punch_1 * 80 )+259, 1110, 80, 97, self.x+20, self.y)
+            draw_rectangle(self.x + 30, self.y+3, self.x + 60, self.y + 18)
         a = self.x + 30
-        b = self.y + 10
+        b = self.y + 3
 
 
     def get_bb(self):
@@ -150,7 +148,7 @@ class KICK3:
         self.y = 200
 
     def enter(self, event):
-        self.kick_1 = 1
+        self.kick_1 = 2
         print('ENTER KICK')
 
     def exit(self, event):
@@ -165,22 +163,22 @@ class KICK3:
     def draw(self):
         global a,b
         global i
-        if game_state.j_hit == True:
+        if game_state.h_hit == True:
             i -= 1
-            self.image.clip_composite_draw(785, 2190, 120, 140, 0, '', self.x, self.y, 120, 150)
+            self.image.clip_draw(72, 260, 80, 100, self.x+5, self.y)
             if i == 0:
                 i = 100
-                game_state.j_hit = False
+                game_state.h_hit = False
         else:
-            self.image.clip_draw((self.kick_1 * 170) + 780, 1220, 130, 160, self.x, self.y)
-            draw_rectangle(self.x+40,self.y,self.x + 65,self.y + 30)
-        a = self.x + 40
-        b = self.y
+            self.image.clip_draw(self.kick_1 * 100,730 , 137, 90, self.x+10, self.y-3)
+            draw_rectangle(self.x+40,self.y+10,self.x + 75,self.y + 30)
+        a = self.x + 35
+        b = self.y + 10
 
     def get_bb(self):
         global i
         if i == 100:
-            return a ,b,a+25,b+30
+            return a ,b,a+35,b+20
         else:
             return 0,0,0,0
 
@@ -233,10 +231,10 @@ class Haeiachi:
             self.add_event(key_event)
 
     def get_bb(self):
-        return self.x - 10, self.y - 55, self.x + 40, self.y + 40
+        return self.x - 20, self.y - 55, self.x + 40, self.y + 40
 
     def handle_collision(self, other, group):
-        leftlifebar.a += 3
+        leftlifebar.a += 5
         self.bgm = load_music('kazuya_punch_sound.mp3')
         self.bgm.set_volume(15)
         self.bgm.play()

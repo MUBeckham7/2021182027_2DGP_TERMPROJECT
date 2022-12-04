@@ -229,7 +229,7 @@ class Jin:
         return self.x - 10, self.y - 55, self.x + 40, self.y + 40
 
     def handle_collision(self, other, group):
-        leftlifebar.a += 3
+        leftlifebar.a += 5
         self.bgm = load_music('kazuya_punch_sound.mp3')
         self.bgm.set_volume(15)
         self.bgm.play()
