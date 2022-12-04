@@ -10,6 +10,7 @@ from background import BackGround
 from jin import Jin
 from kazuya import Kazuya
 from paulpheonix import PaulPheonix
+from haeiachi import Haeiachi
 from gameover import GameOver
 from lifebar import LifeBar
 from leftlifebar import LeftLifeBar
@@ -18,15 +19,18 @@ from timefont import Timefont
 from jin import PUNCH
 from kazuya import PUNCH1
 from paulpheonix import PUNCH2
+from haeiachi import PUNCH3
 from jin import KICK
 from kazuya import KICK1
 from paulpheonix import KICK2
+from haeiachi import KICK3
 from win import Win
 
 background = None
 jin = None
 kazuya = None
 paulpheonix = None
+haeiachi = None
 gameover=None
 gameoverTF = False
 start_ticks =None
@@ -42,12 +46,15 @@ elapsed_time = 0
 jinPunch = None
 kazuya_Punch = None
 paulPunch = None
+haeiachiPunch = None
 jinKick = None
 kazuyaKick = None
 paulKick = None
+haeiachiKick = None
 k_hit = False
 j_hit = False
 p_hit = False
+h_hit = False
 win = None
 jin_win_count = 0
 kazuya_win_count = 0
@@ -64,6 +71,8 @@ def handle_events():
             if CharacterSelect_state.x1 == 0:
                 jin.handle_event(event)
                 print(CharacterSelect_state.x1,'jin')
+            if CharacterSelect_state.x1 == 100:
+                haeiachi.handle_event(event)
             if CharacterSelect_state.x2 == 0:
                 kazuya.handle_event(event)
                 print(CharacterSelect_state.x2,'kazuya')
@@ -83,12 +92,20 @@ def enter():
         jinKick = KICK()
         game_world.add_object(jin, 1)
 
+    if CharacterSelect_state.x1 == 100:         ########헤이아치
+        global haeiachi,haeiachiPunch,haeiachiKick
+        haeiachi = Haeiachi()
+        haeiachiPunch = PUNCH3()
+        haeiachiKick = KICK3()
+        game_world.add_object(haeiachi,1)
+
     if CharacterSelect_state.x2 == 0:           #######카주야
         global kazuya, kazuyaKick,kazuya_Punch
         kazuya=Kazuya()
         kazuya_Punch = PUNCH1()
         kazuyaKick = KICK1()
         game_world.add_object(kazuya, 1)
+
     if CharacterSelect_state.x2 == -100:        ########폴 피닉스
         global paulpheonix,paulPunch,paulKick
         paulpheonix = PaulPheonix()
@@ -130,8 +147,17 @@ def enter():
         game_world.add_collision_group(paulPunch,jin,'paulpunch:jin')
         game_world.add_collision_group(paulKick,jin,'paulkick:jin')
 
+    if CharacterSelect_state.x1 == 100 and CharacterSelect_state.x2 == 0:
+        game_world.add_collision_group(haeiachiPunch,kazuya,'haeiachipunch:kazuya')
+        game_world.add_collision_group(haeiachiKick,kazuya,'haeiachiKick:Kazuya')
+        game_world.add_collision_group(kazuya_Punch,haeiachi,'Kazuya_Punch:haeiachi')
+        game_world.add_collision_group(kazuyaKick,haeiachi,'kazuyaKick:haeiachi')
 
-
+    if CharacterSelect_state.x1 == 100 and CharacterSelect_state.x2 == -100:
+        game_world.add_collision_group(haeiachiPunch,paulpheonix,'haeiachipunch:paulpheonix')
+        game_world.add_collision_group(haeiachiKick,paulpheonix,'haeiachiKick:paulpheonix')
+        game_world.add_collision_group(paulPunch,haeiachi,'paulPunch:haeiachi')
+        game_world.add_collision_group(paulKick,haeiachi,'paulKick:haeiachi')
 
 
 
@@ -139,12 +165,12 @@ def enter():
     start_ticks = pygame.time.get_ticks()
 def exit():
     game_world.clear()
-    global k_hit,j_hit,p_hit
-    k_hit ,j_hit ,p_hit= False,False,False
+    global k_hit,j_hit,p_hit,h_hit
+    k_hit ,j_hit ,p_hit,h_hit= False,False,False,False
     CharacterSelect_state.x1 ,CharacterSelect_state.x2 = 0, 0
 
 def update():
-    global sec,gameoverTF,elapsed_time,total_time,k_hit,j_hit,p_hit
+    global sec,gameoverTF,elapsed_time,total_time,k_hit,j_hit,p_hit,h_hit
 
     for game_object in game_world.all_objects():
         game_object.update()
@@ -158,8 +184,10 @@ def update():
                 k_hit = True
             if b == jin:
                 j_hit = True
-            if b== paulpheonix:
+            if b == paulpheonix:
                 p_hit = True
+            if b == haeiachi:
+                h_hit = True
 
     elapsed_time = (pygame.time.get_ticks() - start_ticks) / 1000
             # display_time(total_time - int(elapsed_time))
@@ -178,7 +206,7 @@ def update():
             game_world.remove_object(gameover)
             leftlifebar.a = 0
             rightlifebar.a = 0
-            kazuya_win_count +=1
+            kazuya_win_count += 1
             game_framework.change_state(title_state)
 
     if rightlifebar.a >= 164:
