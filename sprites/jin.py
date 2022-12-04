@@ -86,6 +86,7 @@ class RUN:
             if self.dir == -0.1:
                 self.image.clip_draw(640, 80, 130, 100, self.x, self.y)
 
+
 a = 0
 b = 0
 

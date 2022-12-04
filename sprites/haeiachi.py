@@ -30,61 +30,68 @@ class IDLE:
 
     @staticmethod
     def do(self):
-        self.frame = (self.frame +1) % 1
+        self.frame = (self.frame+1) % 2
         self.fra = (self.fra+1) % 2
 
     @staticmethod
     def draw(self):
         global i
-        if game_state.j_hit == True:
+        if game_state.h_hit == True:
             i -= 1
-            self.image.clip_composite_draw(785, 2190, 120, 140,0,'', self.x, self.y,120,150)
+            self.image.clip_draw(72, 260, 80, 100, self.x+5, self.y)
             if i == 0:
                 i=100
-                game_state.j_hit = False
+                game_state.h_hit = False
         elif leftlifebar.a >= 164:
             if game_state.i>500:
-                self.image.clip_draw(980, 2190, 120, 140, self.x, self.y, 120, 150)
+                self.image.clip_draw(0, 160, 100, 100, self.x + 5, self.y)
             if game_state.i<500 and game_state.i>0:
-                self.image.clip_draw(1120, 2190, 120, 140, self.x, self.y, 120, 150)
+                self.image.clip_draw(220, 190, 130, 60, self.x - 5, self.y - 10)
         else:
-            self.image.clip_draw(self.frame * 75, 1200, 75, 100, self.x, self.y)
+            self.image.clip_draw(self.frame * 72, 1200, 64, 110, self.x+5, self.y-15)
+            #self.image.clip_composite_draw(-10, 0, 65 , 90,0,'', self.x, self.y,70,100)
 
 
 class RUN:
     def enter(self, event):
         print('ENTER RUN')
         if event == RD:
-            self.dir += 0.3
+            self.dir += 0.2
         elif event == LD:
-            self.dir -= 0.1
+            self.dir -= 0.15
         elif event == RU:
-            self.dir -= 0.3
+            self.dir -= 0.2
         elif event == LU:
-            self.dir += 0.1
+            self.dir += 0.15
 
     def exit(self, event):
         print('EXIT RUN')
         self.face_dir = self.dir
 
     def do(self):
-        self.frame = (self.frame + 1) % 4
+        self.frame = (self.frame + 1) % 2
         self.x += self.dir
         self.x = clamp(0, self.x, 800)
 
     def draw(self):
         global i
-        if game_state.j_hit == True:
+
+        if game_state.h_hit == True:
+            print('이게 된다.')
             i -= 1
-            self.image.clip_composite_draw(785, 2190, 120, 140, 0, '', self.x, self.y, 120, 150)
+            self.image.clip_draw(72, 260, 80, 100, self.x+5, self.y)
             if i == 0:
                 i = 100
-                game_state.j_hit = False
+                game_state.h_hit = False
         else:
-            if self.dir == 0.3:
-                self.image.clip_draw(self.frame * 160, 2580, 100, 140, self.x, self.y)
-            if self.dir == -0.1:
-                self.image.clip_draw(640, 80, 130, 100, self.x, self.y)
+            print('밥은 먹고 다니냐')
+            if self.dir == 0.2:
+                self.image.clip_draw(self.frame * 72, 1200, 64, 110, self.x + 5, self.y - 15)
+                print('앞으로')
+            if self.dir == -0.15:
+                self.image.clip_composite_draw(-10, 0, 65, 90, 0, '', self.x, self.y, 70, 100)
+                print('뒤로')
+
 
 a = 0
 b = 0
@@ -193,7 +200,7 @@ class Haeiachi:
     def __init__(self):
         self.x, self.y = 200, 200
         self.frame = 0
-        self.fra=0
+        self.fra= 0
         self.dir, self.face_dir = 0, 1
         self.image = load_image('Haeiachi.png')
 

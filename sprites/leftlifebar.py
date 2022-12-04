@@ -15,7 +15,6 @@ class LeftLifeBar:
     def draw(self):
         global a
         self.image.clip_composite_draw(0, 0, 460, 50, 0, '', 185 + (0.9 * a), 510, 325 - (2 * a), 40)
-        print('좌 라이프 바:', a)
 
         #if a == 164:
             #game_world.add_object(game_state.gameover, 1)

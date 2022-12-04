@@ -166,7 +166,7 @@ def enter():
 def exit():
     game_world.clear()
     global k_hit,j_hit,p_hit,h_hit
-    k_hit ,j_hit ,p_hit,h_hit= False,False,False,False
+    k_hit, j_hit, p_hit, h_hit = False, False, False, False
     CharacterSelect_state.x1 ,CharacterSelect_state.x2 = 0, 0
 
 def update():
