@@ -12,9 +12,9 @@ key_event_table = {
     (SDL_KEYUP, SDLK_a): LU,
     (SDL_KEYUP, SDLK_d): RU,
     (SDL_KEYDOWN, SDLK_SPACE): PU,
-    (SDL_KEYDOWN, SDLK_k): KU,
+    (SDL_KEYDOWN, SDLK_b): KU,
     (SDL_KEYUP, SDLK_SPACE): PD,
-    (SDL_KEYUP, SDLK_k): KD,
+    (SDL_KEYUP, SDLK_b): KD,
 }
 
 defence = False
